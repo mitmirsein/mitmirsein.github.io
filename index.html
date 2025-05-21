@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>케리그마출판사 - 신학 지식의 동반자</title>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0a4a7a;
+            --secondary-color: #f8fafd;
+            --accent-color: #e67e22; /* Example Accent Color (Orange - Use sparingly) */
+            --text-color: #333;
+            --heading-color: #1a1a1a;
+            --link-color: #0a4a7a;
+            --border-color: #dce4ec;
+            --footer-bg: #2c3e50; /* Darker Footer Background */
+            --footer-text: #bdc3c7; /* Lighter Footer Text */
+            --serif-font: 'Noto Serif KR', serif;
+            --sans-serif-font: 'Noto Sans KR', sans-serif;
+            --welcome-bg: linear-gradient(135deg, #0a4a7a 0%, #1e6a9e 100%);
+            --section-shadow: 0 4px 12px rgba(0, 67, 115, 0.08);
+            --section-shadow-hover: 0 8px 20px rgba(0, 67, 115, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--sans-serif-font);
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .welcome-header {
+            background: var(--welcome-bg);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-header h1 {
+            font-family: var(--serif-font);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .welcome-header p.subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .representative-message {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+
+        main {
+            flex-grow: 1;
+            padding-bottom: 3rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--section-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+             transform: translateY(-3px); /* Subtle lift effect */
+             box-shadow: var(--section-shadow-hover); /* Enhanced shadow on hover */
+        }
+
+        section#intro,
+        section#synergy {
+             background-color: var(--secondary-color);
+             border: none;
+             box-shadow: none; /* Remove shadow from intro/synergy */
+        }
+        section#intro:hover,
+        section#synergy:hover {
+            transform: none; /* No lift effect for these sections */
+            box-shadow: none;
+        }
+         /* Special styling for the final invitation section */
+        section#invitation {
+            background-color: var(--secondary-color);
+            border-top: 3px solid var(--primary-color); /* Add top border for emphasis */
+             border-radius: 0 0 10px 10px; /* Keep bottom radius */
+        }
+
+        section h2 {
+            font-family: var(--serif-font);
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 2rem; /* Increased bottom margin */
+            padding-bottom: 0.5rem;
+            text-align: center;
+            position: relative; /* For potential decorative elements */
+        }
+        /* Optional: Add subtle underline effect to h2 */
+        /* section h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            opacity: 0.6;
+            margin: 0.5rem auto 0 auto;
+        } */
+
+         section h3 {
+            font-family: var(--sans-serif-font);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem; /* Increased padding */
+            display: flex; /* Align icon and text */
+            align-items: center;
+        }
+        section h3 i { /* Style for icons within h3 */
+            margin-right: 0.7rem;
+            color: var(--primary-color);
+            font-size: 1.3rem; /* Slightly smaller icon */
+            opacity: 0.8;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        a:hover, a:focus {
+            color: #07375a;
+            text-decoration: underline;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white !important;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin: 1rem 0.5rem 0 0.5rem; /* Adjusted margin for spacing */
+            border: 2px solid var(--primary-color); /* Added border for consistency with ghost */
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background-color: #07375a;
+            border-color: #07375a; /* Match border color on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            text-decoration: none;
+            color: white !important;
+        }
+
+        /* Ghost Button Style */
+        .cta-button.ghost {
+            background-color: transparent;
+            color: var(--primary-color) !important;
+            border: 2px solid var(--primary-color);
+        }
+
+        .cta-button.ghost:hover, .cta-button.ghost:focus {
+            background-color: var(--primary-color);
+            color: white !important;
+             border-color: var(--primary-color);
+        }
+
+
+        .platform-showcase {
+            text-align: left;
+        }
+        .platform-showcase h2 { text-align: center; }
+        .platform-showcase h3 { text-align: left; }
+
+        .project-link {
+            font-weight: 700;
+            /* Optional: Slightly different color for project link */
+            /* color: #16a085; */ /* Example alternate color */
+        }
+        .project-link:hover {
+             /* color: #117e6b; */ /* Darker shade on hover */
+        }
+
+        .synergy-section {
+            background-color: var(--secondary-color);
+            text-align: center;
+            border-top: 1px solid var(--border-color); /* Lighter border */
+             border-bottom: 1px solid var(--border-color);
+             border-radius: 0;
+             margin-left: -20px;
+             margin-right: -20px;
+             padding-left: 40px;
+             padding-right: 40px;
+        }
+
+        .synergy-section h2 {
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            background-color: var(--footer-bg); /* Use variable */
+            color: var(--footer-text); /* Use variable */
+            text-align: center;
+            padding: 2.5rem 0; /* Increased padding */
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        footer p {
+            margin-bottom: 0.5rem;
+            color: var(--footer-text); /* Ensure p tags inherit footer text color */
+            opacity: 0.8; /* Slightly lighter */
+        }
+        footer p:first-child { /* Copyright line slightly bolder/more prominent */
+            opacity: 1;
+            font-weight: 400;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-header h1 { font-size: 2.5rem; }
+            .welcome-header p.subtitle { font-size: 1.1rem; }
+            section { padding: 2rem; }
+            section h2 { font-size: 1.9rem; }
+            section h3 { font-size: 1.3rem; }
+            p { font-size: 1rem; }
+            .cta-button { padding: 0.8rem 1.5rem; font-size: 0.95rem; }
+            .synergy-section { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-header { padding: 3rem 0; }
+            .welcome-header h1 { font-size: 2rem; }
+            .welcome-header p.subtitle { font-size: 1rem; }
+            section { padding: 1.5rem; }
+            section h2 { font-size: 1.6rem; }
+            section h3 { font-size: 1.2rem; }
+            .cta-button-container { display: flex; flex-direction: column; align-items: center;} /* Stack buttons */
+            .cta-button { margin: 0.5rem 0; width: 80%; } /* Make buttons full width on small screens */
+        }
+    </style>
+</head>
+<body>
+    <header class="welcome-header">
+        <div class="container">
+            <h1>케리그마출판사에 오신 것을 환영합니다</h1>
+            <p class="subtitle">신뢰할 수 있는 신학 지식으로 당신의 신앙 여정에 깊이를 더합니다.</p>
+            <p class="representative-message">"하나님의 말씀을 깊이 탐구하고 선포하는 여정에 여러분과 함께하게 되어 기쁩니다."</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="intro">
+            <h2>우리의 약속: 말씀과 신학의 샘으로 초대</h2>
+            <p>
+                안녕하십니까? 케리그마출판사입니다. 저희는 '케리그마'(선포)라는 이름에 담긴 소명처럼 복음의 깊고 풍성한 진리를 탐구하고 나누기 위해 존재합니다. 급변하는 시대 속에서도 변치 않는 가치를 추구하며, 한국 교회와 신학 공동체를 섬기는 마음으로 신뢰할 수 있는 신학 콘텐츠를 제공하고자 최선을 다하고 있습니다.
+            </p>
+            <p>
+                목회 현장에서, 신학 연구의 자리에서, 혹은 개인의 신앙 성장을 위한 여정에서, 여러분께 의미 있는 지적, 영적 자양분을 공급하는 든든한 동반자가 되기를 소망합니다. 이를 위해 저희는 두 가지 핵심적인 통로를 마련했습니다. 바로 <a href="#kerygma-press">케리그마출판사 도서실</a>과 <a href="#kerygma-notion">케리그마 신학 자료실</a>입니다.
+            </p>
+        </section>
+
+        <section id="kerygma-press" class="platform-showcase">
+            <h2>깊이 있는 탐구: 케리그마출판사 도서실</h2>
+
+            <h3><i class="fa-solid fa-book-open"></i> 엄선된 신학 도서의 보고</h3>
+            <p>
+                케리그마출판사 도서실은 케리그마가 정성껏 펴낸 다양한 신학 서적들을 만날 수 있는 공간입니다. 성경신학, 조직신학, 역사신학, 실천신학 등 각 분야 최고 전문가들의 저술과 번역서를 통해, 시대적 질문에 답하고 신앙의 근본을 다지는 깊이 있는 탐구를 지원합니다. 신간 소식부터 추천 도서, 상세한 책 정보까지, 여러분의 지적 갈증을 해소할 보물들을 발견하실 수 있습니다.
+            </p>
+
+            <h3><i class="fa-solid fa-globe"></i> 세계 신학의 유산을 한국에: 신학 명저 번역 프로젝트</h3>
+            <p>
+                케리그마는 한국 교회의 신학적 토양을 더욱 풍성하게 하고자 하는 간절한 마음으로 <span style="font-weight:bold;">&lt;신학 명저 번역 프로젝트&gt;</span>를 꾸준히 진행하고 있습니다. 이는 시대를 초월하여 신학 사상에 큰 영향을 미친 해외의 중요한 고전들을 엄선하여, 정확하고 신뢰할 수 있는 한국어 번역으로 소개하는 장기적인 약속입니다. 이 프로젝트를 통해 우리는 세계 교회의 귀중한 신학적 유산을 공유하고, 한국 신학의 지평을 넓히는 데 기여하고자 합니다. 이 귀한 여정에 여러분의 많은 관심과 격려를 부탁드립니다.
+                (<a href="https://kerygma.notion.site/9d84439a987844388c1bb82806cdb5aa?v=590a54a7ca424e2fba95e9f0e12de03a&pvs=4" target="_blank" class="project-link">프로젝트 자세히 보기</a>)
+            </p>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                 <a href="https://www.notion.so/kerygma/3c6680a914f844da989a506a31057dbe" target="_blank" class="cta-button">도서실 둘러보기</a>
+            </div>
+        </section>
+
+        <section id="kerygma-notion" class="platform-showcase">
+             <h2>지식의 확장: 케리그마 신학 자료실</h2>
+
+            <h3><i class="fa-solid fa-database"></i> 언제 어디서든, 손 안의 신학 라이브러리</h3>
+            <p>
+                디지털 시대의 흐름에 발맞춰 저희는 Notion 플랫폼을 활용한 신학 자료실을 운영하고 있습니다. 이곳에서는 엄선된 신학 아티클, 강연, 핵심 요약, 스터디 가이드, 유용한 링크 등 시의적절하고 접근성 높은 콘텐츠를 제공합니다. 특정 주제에 대한 빠른 이해가 필요할 때, 강의나 설교를 준비할 때, 혹은 함께 공부할 자료를 찾을 때, 이 디지털 아카이브는 여러분의 든든한 연구 파트너가 되어 드릴 것입니다.
+            </p>
+             <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://kerygma.notion.site/1686b62d56e0450da6d3d9f759999bdf?v=30435c12c85a4d65b2a34186a6e944cb&pvs=4" target="_blank" class="cta-button">신학 자료실 방문하기</a>
+            </div>
+        </section>
+
+        <section id="synergy" class="synergy-section">
+            <h2>두 날개로 비상하는 케리그마 지식 생태계</h2>
+            <p>
+                케리그마출판사 도서실과 신학 자료실은 각각의 고유한 장점을 가지면서도 하나의 목표를 향해 나아가는 '두 날개'와 같습니다. 단행본을 통해 얻는 체계적이고 깊이 있는 지식과, 디지털 자료실을 통해 얻는 시의성 있고 폭넓은 정보가 만나 시너지를 이룹니다.
+            </p>
+            <p>
+                저희는 이 두 플랫폼을 통해 여러분이 신학의 광활한 세계를 자유롭게 탐험하고, 얻은 지혜를 삶과 사역에 풍성하게 적용하실 수 있도록 최선을 다해 지원하겠습니다. 케리그마가 마련한 지식 생태계 안에서 마음껏 배우고 성장하는 기쁨을 누리시길 바랍니다.
+            </p>
+        </section>
+
+        <section id="invitation">
+            <h2>함께 걸어갈 당신을 기다립니다</h2>
+            <p>
+                케리그마의 문은 언제나 활짝 열려 있습니다. 저희가 제공하는 책과 자료들이 여러분의 신앙 여정에 귀한 등불이 되고, 하나님을 아는 지식 안에서 더욱 깊어지는 은혜를 경험하는 통로가 되기를 진심으로 기도합니다.
+            </p>
+            <p>
+                지금 바로 케리그마출판사 도서실과 신학 자료실을 방문하셔서 여러분을 위해 준비된 풍성한 지혜의 샘을 만나보십시오.
+            </p>
+             <div style="text-align: center; margin-top: 2rem;" class="cta-button-container"> <!-- Button Container -->
+                 <a href="https://www.notion.so/kerygma/3c6680a914f844da989a506a31057dbe" target="_blank" class="cta-button">도서실 둘러보기</a>
+                 <a href="https://kerygma.notion.site/1686b62d56e0450da6d3d9f759999bdf?v=30435c12c85a4d65b2a34186a6e944cb&pvs=4" target="_blank" class="cta-button ghost">신학 자료실 가기</a> <!-- Ghost button applied -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 케리그마출판사. All rights reserved.</p> <!-- 연도 수정 -->
+            <p>시대를 밝히는 말씀 선포와 신학 연구의 빛, 케리그마출판사가 함께합니다.</p>
+        </div>
+    </footer>
+</body>
+</html>
