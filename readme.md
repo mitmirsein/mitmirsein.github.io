@@ -1,5 +1,8 @@
 # 케리그마출판사 (Kerygma Publishing) 웹사이트
 
+[![Website Status](https://img.shields.io/website?url=https%3A%2F%2Fkerygma.co.kr%2Findex.html&label=%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EC%83%81%ED%83%9C)](https://kerygma.co.kr/index.html)
+[![HTML Validation](https://img.shields.io/w3c-validation/html?targetUrl=https%3A%2F%2Fkerygma.co.kr%2Findex.html&label=HTML%20%EC%9C%A0%ED%9A%A8%EC%84%B1)](https://validator.w3.org/nu/?doc=https%3A%2F%2Fkerygma.co.kr%2Findex.html)
+
 케리그마출판사의 공식 웹사이트 프로젝트입니다. 이 웹사이트는 출판사의 비전, 주요 도서 및 다양한 신학 자료를 소개하며, 사용자들이 신뢰할 수 있는 신학 지식에 쉽게 접근할 수 있도록 돕는 것을 목표로 합니다.
 
 ## 목차
