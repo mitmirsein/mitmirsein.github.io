@@ -87,12 +87,12 @@
 
 ## 4. 주요 외부 링크
 
-케리그마출판사 웹사이트는 핵심 콘텐츠 및 자료 제공을 위해 Notion 플랫폼을 적극적으로 활용합니다.
+케리그마출판사 웹사이트는 핵심 콘텐츠 및 자료 제공을 위해 Notion 플랫폼을 적극적으로 활용합니다. 아래 각 항목의 제목을 클릭하면 해당 페이지로 이동합니다. (일반적으로 새 창/탭에서 열리거나, 브라우저 설정에 따라 현재 창에서 열릴 수 있습니다.)
 
-*   **케리그마출판사 도서실**: `https://www.notion.so/kerygma/3c6680a914f844da989a506a31057dbe`
-*   **신학 명저 번역 프로젝트**: `https://kerygma.notion.site/9d84439a987844388c1bb82806cdb5aa?v=590a54a7ca424e2fba95e9f0e12de03a&pvs=4`
-*   **케리그마 신학 자료실**: `https://kerygma.notion.site/1686b62d56e0450da6d3d9f759999bdf?v=30435c12c85a4d65b2a34186a6e944cb&pvs=4`
-*   **신학 용어 해설**: `https://www.notion.so/kerygma/1fa82849954d8037b62de45a6456f88e`
+*   **[케리그마출판사 도서실](https://www.notion.so/kerygma/3c6680a914f844da989a506a31057dbe)**
+*   **[신학 명저 번역 프로젝트](https://kerygma.notion.site/9d84439a987844388c1bb82806cdb5aa?v=590a54a7ca424e2fba95e9f0e12de03a&pvs=4)**
+*   **[케리그마 신학 자료실](https://kerygma.notion.site/1686b62d56e0450da6d3d9f759999bdf?v=30435c12c85a4d65b2a34186a6e944cb&pvs=4)**
+*   **[신학 용어 해설](https://www.notion.so/kerygma/1fa82849954d8037b62de45a6456f88e)**
 
 ## 5. 기여 방법
 
