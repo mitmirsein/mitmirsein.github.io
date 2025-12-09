@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
 
     <style>
         :root {
-            /* Palette: Deep Midnight & Antique Gold */
+            /* Default Dark Theme (Midnight Theo-Logos) */
             --bg-color: #0f1115;
             --surface-color: #1a1d24;
             --text-main: #e2e8f0;
@@ -26,6 +26,13 @@
             --accent-gold: #d4af37;
             --accent-gold-light: #f3cf55;
             --accent-blue: #3b82f6;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.03);
+            --philosophy-bg: rgba(255, 255, 255, 0.02);
+            --hero-overlay: rgba(255, 255, 255, 0.03);
+            --btn-text: #000;
+            --btn-hover-bg: #fff;
+            --logo-color: #fff;
 
             --font-serif: 'Playfair Display', serif;
             --font-display: 'Cinzel', serif;
@@ -33,6 +40,29 @@
 
             --container-width: 1200px;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Light Theme (Theological Paper) */
+        [data-theme="light"] {
+            --bg-color: #f9f9f7;
+            /* Warm Cream */
+            --surface-color: #eaeae5;
+            /* Parchmentish Grey */
+            --text-main: #1a1d24;
+            /* Deep Navy/Charcoal */
+            --text-muted: #4b5563;
+            --accent-gold: #c5a028;
+            /* Slightly darker gold for contrast */
+            --accent-gold-light: #e6b72e;
+            --accent-blue: #2563eb;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --philosophy-bg: rgba(0, 0, 0, 0.03);
+            --hero-overlay: rgba(0, 0, 0, 0.02);
+            --btn-text: #fff;
+            /* Button text inverse */
+            --btn-hover-bg: #1a1d24;
+            --logo-color: #1a1d24;
         }
 
         /* Base & Reset */
@@ -55,6 +85,7 @@
             -webkit-font-smoothing: antialiased;
             word-break: keep-all;
             /* Korean typography best practice */
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         a {
@@ -75,7 +106,9 @@
             font-family: var(--font-serif);
             font-weight: 700;
             line-height: 1.2;
-            color: #fff;
+            color: var(--text-main);
+            /* Adaptive color */
+            transition: color 0.5s ease;
         }
 
         .text-gold {
@@ -85,12 +118,22 @@
         .text-gradient {
             background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
             -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Light mode text gradient adjustment */
+        [data-theme="light"] .text-gradient {
+            background: linear-gradient(135deg, #1a1d24 0%, #4b5563 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .text-gold-gradient {
             background: linear-gradient(135deg, var(--accent-gold-light) 0%, var(--accent-gold) 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -122,23 +165,26 @@
             position: relative;
             overflow: hidden;
             border: 1px solid transparent;
+            cursor: pointer;
         }
 
         .btn-gold {
             background: var(--accent-gold);
-            color: #000;
+            color: var(--btn-text);
         }
 
         .btn-gold:hover {
-            background: #fff;
+            background: var(--btn-hover-bg);
+            color: var(--accent-gold);
             transform: translateY(-2px);
             box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.3);
         }
 
         .btn-outline {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
+            border: 1px solid var(--border-color);
+            /* Updated to variable */
+            color: var(--text-main);
         }
 
         .btn-outline:hover {
@@ -153,6 +199,32 @@
 
         /* Adjusted size for Korean text */
 
+        /* Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: rotate(15deg);
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -160,8 +232,10 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            background: radial-gradient(circle at 50% 50%, #1a1d24 0%, #0f1115 100%);
+            background: radial-gradient(circle at 50% 50%, var(--surface-color) 0%, var(--bg-color) 100%);
+            /* Variable bg */
             overflow: hidden;
+            transition: background 0.5s ease;
         }
 
         .hero::before {
@@ -171,7 +245,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23888888' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.5;
             z-index: 1;
         }
@@ -192,6 +266,7 @@
             opacity: 0;
             transform: translateY(30px);
             animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+            color: var(--text-main);
         }
 
         .hero-subtitle {
@@ -226,11 +301,12 @@
 
         /* Philosophy Section */
         .philosophy-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--philosophy-bg);
+            border: 1px solid var(--border-color);
             padding: 60px;
             text-align: center;
             position: relative;
+            transition: background 0.5s ease;
         }
 
         .philosophy-text {
@@ -263,7 +339,7 @@
             position: relative;
             overflow: hidden;
             transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -272,7 +348,8 @@
         .bento-item:hover {
             transform: translateY(-5px);
             border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.1);
+            /* Lighter shadow for light mode compatible */
         }
 
         .bento-lg {
@@ -313,6 +390,7 @@
         .card-title {
             font-size: 1.8rem;
             margin-bottom: 16px;
+            color: var(--text-main);
         }
 
         .card-desc {
@@ -332,7 +410,13 @@
         /* AI Gems Section - Special Styling */
         .mcp-gem-section {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(15, 17, 21, 0) 100%);
+            /* Need variable or specific override */
             border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        [data-theme="light"] .mcp-gem-section {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            border-color: rgba(37, 99, 235, 0.2);
         }
 
         .mcp-gem-section .card-icon {
@@ -356,10 +440,22 @@
             transition: var(--transition);
         }
 
+        [data-theme="light"] .gem-link {
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+            border-color: rgba(37, 99, 235, 0.2);
+        }
+
         .gem-link:hover {
             background: rgba(59, 130, 246, 0.2);
             border-color: #60a5fa;
             color: #fff;
+        }
+
+        [data-theme="light"] .gem-link:hover {
+            background: rgba(37, 99, 235, 0.15);
+            border-color: #2563eb;
+            color: #1a1d24;
         }
 
         .gem-link i {
@@ -368,15 +464,17 @@
 
         /* Footer */
         footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border-color);
             padding: 80px 0 40px;
-            background: #0a0c10;
+            background: var(--bg-color);
+            /* Updated to variable */
+            transition: background 0.5s ease;
         }
 
         .footer-logo {
             font-family: var(--font-display);
             font-size: 1.5rem;
-            color: #fff;
+            color: var(--logo-color);
             margin-bottom: 24px;
             display: inline-block;
         }
@@ -422,6 +520,11 @@
 </head>
 
 <body>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+    </button>
 
     <!-- Hero Section -->
     <header class="hero">
@@ -572,6 +675,42 @@
         window.addEventListener("scroll", reveal);
         // Trigger once on load
         reveal();
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        const html = document.documentElement;
+
+        // Check Local Storage or System Preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            updateIcon(savedTheme);
+        } else if (systemPrefersDark) {
+            html.setAttribute('data-theme', 'dark');
+            updateIcon('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'light') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
     </script>
 </body>
 
