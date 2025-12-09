@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERYGMA | The Theological Frontier</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palette: Deep Midnight & Antique Gold */
+            --bg-color: #0f1115;
+            --surface-color: #1a1d24;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #f3cf55;
+            --accent-blue: #3b82f6;
+
+            --font-serif: 'Playfair Display', serif;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Noto Sans KR', sans-serif;
+
+            --container-width: 1200px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Base & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            word-break: keep-all;
+            /* Korean typography best practice */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            line-height: 1.2;
+            color: #fff;
+        }
+
+        .text-gold {
+            color: var(--accent-gold);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, var(--accent-gold-light) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding {
+            padding: 120px 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 2px;
+            /* Sharp editorial look */
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-family: var(--font-sans);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Adjusted size for Korean text */
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #1a1d24 0%, #0f1115 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            letter-spacing: 4px;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-serif);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
+        }
+
+        .hero-actions {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.8s;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Decorative Line */
+        .divider-vertical {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--accent-gold), transparent);
+            margin: 0 auto 30px;
+            opacity: 0;
+            animation: growDown 1s ease forwards;
+        }
+
+        /* Philosophy Section */
+        .philosophy-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        .philosophy-text {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .philosophy-sign {
+            margin-top: 30px;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+        }
+
+        /* Bento Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .bento-item {
+            background: var(--surface-color);
+            border-radius: 4px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+        }
+
+        .bento-lg {
+            grid-column: span 12;
+        }
+
+        .bento-md {
+            grid-column: span 6;
+        }
+
+        .bento-sm {
+            grid-column: span 4;
+        }
+
+        @media (max-width: 900px) {
+            .bento-md {
+                grid-column: span 12;
+            }
+
+            .bento-sm {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .bento-sm {
+                grid-column: span 12;
+            }
+        }
+
+        /* Feature Cards Content */
+        .card-icon {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+        }
+
+        .card-desc {
+            font-size: 1.05rem;
+            /* Adjusted for Korean */
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            flex-grow: 1;
+        }
+
+        .card-link-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* AI Gems Section - Special Styling */
+        .mcp-gem-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(15, 17, 21, 0) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .mcp-gem-section .card-icon {
+            color: var(--accent-blue);
+        }
+
+        .mcp-gem-section:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .gem-link {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            padding: 10px 16px;
+            /* Increased padding slightly */
+            border-radius: 4px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: var(--transition);
+        }
+
+        .gem-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #60a5fa;
+            color: #fff;
+        }
+
+        .gem-link i {
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 80px 0 40px;
+            background: #0a0c10;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes growDown {
+            to {
+                opacity: 1;
+                height: 100px;
+            }
+        }
+
+        /* Scroll Reveal Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="divider-vertical"></div>
+            <h1 class="hero-title">KERYGMA</h1>
+            <p class="hero-subtitle">디지털 시대, 로고스를 향한 깊은 울림</p>
+
+            <div class="hero-actions">
+                <a href="#library" class="btn btn-gold">도서실 입장</a>
+                <a href="#gems" class="btn btn-outline">AI 도구</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Philosophy / Intro -->
+        <section class="section-padding container">
+            <div class="philosophy-card reveal">
+                <p class="philosophy-text">
+                    "우리는 신학적 진리의 깊이를 탐구하는 데 헌신합니다. 가치가 흔들리는 이 시대에,
+                    케리그마는 변치 않는 말씀의 수호자로서 교회와 지성의 영적 성장을 위한
+                    신뢰할 수 있는 토대를 제공합니다."
+                </p>
+                <div class="philosophy-sign">KERYGMA PRESS</div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="container section-padding" style="padding-top: 0;">
+            <div class="bento-grid">
+
+                <!-- Library Section -->
+                <article id="library" class="bento-item bento-md reveal">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-book-bible"></i></div>
+                        <h3 class="card-title">케리그마 도서실</h3>
+                        <p class="card-desc">
+                            엄선된 신학 서적 컬렉션을 만나보세요. 조직신학부터 성경 주석까지,
+                            하나님을 아는 지식의 깊이를 더해줄 핵심 자료를 제공합니다.
+                        </p>
+                    </div>
+                    <div class="card-link-group">
+                        <a href="https://www.notion.so/kerygma/3c6680a914f844da989a506a31057dbe" target="_blank"
+                            class="btn btn-outline btn-sm">도서 목록</a>
+                        <a href="https://kfreebook.netlify.app/" target="_blank" class="btn btn-outline btn-sm">무료
+                            리소스</a>
+                    </div>
+                </article>
+
+                <!-- Knowledge Base Section -->
+                <article id="archive" class="bento-item bento-md reveal">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3 class="card-title">신학 아카이브</h3>
+                        <p class="card-desc">
+                            신학 논문, 스터디 가이드, 용어 사전이 담긴 디지털 성소입니다.
+                            언제 어디서나 접속 가능한 당신만의 연구 파트너입니다.
+                        </p>
+                    </div>
+                    <div class="card-link-group">
+                        <a href="https://kerygma.notion.site/1686b62d56e0450da6d3d9f759999bdf" target="_blank"
+                            class="btn btn-outline btn-sm">자료실 열기</a>
+                        <a href="https://www.notion.so/kerygma/1fa82849954d8037b62de45a6456f88e" target="_blank"
+                            class="btn btn-outline btn-sm">용어 사전</a>
+                    </div>
+                </article>
+
+                <!-- Translation Project (Full Width) -->
+                <article class="bento-item bento-lg reveal">
+                    <div>
+                        <h3 class="card-title text-gold">신학 명저 번역 프로젝트</h3>
+                        <p class="card-desc" style="max-width: 800px;">
+                            세계 신학의 유산과 한국 교회를 잇는 가교가 되겠습니다.
+                            기독교 사상사에 지대한 영향을 미친 불멸의 고전들을 엄선하여 번역하고 소개합니다.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="https://kerygma.notion.site/9d84439a987844388c1bb82806cdb5aa" target="_blank"
+                            class="btn btn-outline">프로젝트 탐험하기</a>
+                    </div>
+                </article>
+
+                <!-- AI Gems (New Feature) -->
+                <article id="gems" class="bento-item bento-md mcp-gem-section reveal">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <h3 class="card-title">Kerygma AI Gems</h3>
+                        <p class="card-desc">
+                            맞춤형 튜닝된 AI 모델과 함께 신학적 탐구의 새로운 지평을 경험하십시오.
+                        </p>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <a href="https://gemini.google.com/gem/1aZYqp-_0uP0jDkJvwnV1I0WthAYKwguP?usp=sharing"
+                                target="_blank" class="gem-link">
+                                <i class="fa-solid fa-robot"></i> 신학 연구주제 발굴
+                            </a>
+                            <a href="https://gemini.google.com/gem/12w50oC0Gp8IVWOdvtNpBk6vhEQMiwAzo?usp=sharing"
+                                target="_blank" class="gem-link">
+                                <i class="fa-solid fa-code"></i> 주해와 설교 프레임워크
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Parrehsia Review -->
+                <article class="bento-item bento-md reveal">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-feather-pointed"></i></div>
+                        <h3 class="card-title">파레시아 (Parrehsia)</h3>
+                        <p class="card-desc">
+                            Kerygma AI 신학 리뷰지. 고전과 현대 신학 서적에 대한 담대하고 깊이 있는 비평을 제공합니다.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="https://th-review.netlify.app/" target="_blank" class="btn btn-outline btn-sm">저널
+                            읽기</a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container" style="text-align: center;">
+            <a href="#" class="footer-logo">KERYGMA</a>
+            <p class="footer-text">&copy; 2024 케리그마출판사. Soli Deo Gloria.</p>
+            <div style="margin-top: 20px; opacity: 0.5;">
+                <i class="fa-solid fa-cross fa-sm"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll Reveal
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
+</body>
+
+</html>
