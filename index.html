@@ -427,6 +427,14 @@
             border-color: var(--accent-blue);
         }
 
+        /* Ensure same height for gem link containers */
+        .mcp-gem-section .gem-links-container {
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .gem-link {
             display: inline-flex;
             align-items: center;
@@ -632,7 +640,7 @@
                         <p class="card-desc">
                             맞춤형 튜닝된 AI 모델과 함께 신학적 탐구의 새로운 지평을 경험하십시오.
                         </p>
-                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="gem-links-container">
                             <a href="https://gemini.google.com/gem/12w50oC0Gp8IVWOdvtNpBk6vhEQMiwAzo?usp=sharing"
                                 target="_blank" class="gem-link">
                                 <i class="fa-solid fa-code"></i> 주해와 설교 프레임워크
@@ -661,7 +669,7 @@
                         <p class="card-desc">
                             신학 리서치를 위한 전문 어시스턴트 도구입니다.
                         </p>
-                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="gem-links-container">
                             <a href="https://gemini.google.com/gem/1sHBZOeaDjsq8eNPc9E6KfqRo1sdSiiBD?usp=sharing"
                                 target="_blank" class="gem-link">
                                 <i class="fa-solid fa-video"></i> 유튜브 신학 영상 분석과 설교 적용점 개발
