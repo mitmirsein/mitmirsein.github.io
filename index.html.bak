@@ -45,10 +45,14 @@
         /* Light Theme (Theological Paper) */
         [data-theme="light"] {
             --bg-color: #f9f9f7;
+            /* Warm Cream */
             --surface-color: #eaeae5;
+            /* Parchmentish Grey */
             --text-main: #1a1d24;
+            /* Deep Navy/Charcoal */
             --text-muted: #4b5563;
             --accent-gold: #c5a028;
+            /* Slightly darker gold for contrast */
             --accent-gold-light: #e6b72e;
             --accent-blue: #2563eb;
             --border-color: rgba(0, 0, 0, 0.08);
@@ -56,26 +60,9 @@
             --philosophy-bg: rgba(0, 0, 0, 0.03);
             --hero-overlay: rgba(0, 0, 0, 0.02);
             --btn-text: #fff;
+            /* Button text inverse */
             --btn-hover-bg: #1a1d24;
             --logo-color: #1a1d24;
-        }
-
-        /* Gray Theme (Muted Slate) */
-        [data-theme="gray"] {
-            --bg-color: #334155;
-            --surface-color: #475569;
-            --text-main: #f1f5f9;
-            --text-muted: #cbd5e1;
-            --accent-gold: #fbbf24;
-            --accent-gold-light: #fcd34d;
-            --accent-blue: #60a5fa;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --philosophy-bg: rgba(0, 0, 0, 0.2);
-            --hero-overlay: rgba(0, 0, 0, 0.1);
-            --btn-text: #fff;
-            --btn-hover-bg: #1e293b;
-            --logo-color: #f1f5f9;
         }
 
         /* Base & Reset */
@@ -212,64 +199,30 @@
 
         /* Adjusted size for Korean text */
 
-        /* Updated Theme Switcher */
-        .theme-switcher {
+        /* Toggle Button */
+        .theme-toggle {
             position: fixed;
             top: 24px;
             right: 24px;
             z-index: 1000;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-main);
             display: flex;
-            gap: 4px;
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(8px);
-            padding: 4px;
-            border-radius: 9999px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        [data-theme="light"] .theme-switcher {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .theme-btn {
-            padding: 6px 16px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-            background: transparent;
-            color: #94a3b8;
-            font-family: var(--font-sans);
-            letter-spacing: 0.5px;
-        }
-
-        [data-theme="light"] .theme-btn {
-            color: #64748b;
-        }
-
-        .theme-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="light"] .theme-btn:hover {
-            color: #000;
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .theme-btn.active {
-            background: var(--surface-color);
+        .theme-toggle:hover {
+            border-color: var(--accent-gold);
             color: var(--accent-gold);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        [data-theme="gray"] .theme-btn.active {
-            background: #1e293b;
-            color: #fbbf24;
+            transform: rotate(15deg);
         }
 
         /* Hero Section */
@@ -576,12 +529,9 @@
 <body>
 
     <!-- Theme Toggle -->
-    <!-- Theme Switcher -->
-    <div class="theme-switcher">
-        <button class="theme-btn" onclick="setTheme('light')" data-theme="light">LIGHT</button>
-        <button class="theme-btn" onclick="setTheme('dark')" data-theme="dark">DARK</button>
-        <button class="theme-btn" onclick="setTheme('gray')" data-theme="gray">GRAY</button>
-    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+    </button>
 
     <!-- Hero Section -->
     <header class="hero">
@@ -767,23 +717,41 @@
         // Trigger once on load
         reveal();
 
-        // Theme Management
-        function setTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            updateActiveButton(theme);
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        const html = document.documentElement;
+
+        // Check Local Storage or System Preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            updateIcon(savedTheme);
+        } else if (systemPrefersDark) {
+            html.setAttribute('data-theme', 'dark');
+            updateIcon('dark');
         }
 
-        function updateActiveButton(theme) {
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.theme === theme) btn.classList.add('active');
-            });
-        }
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-        // Initialization
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(savedTheme);
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            if (theme === 'light') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
     </script>
 </body>
 
