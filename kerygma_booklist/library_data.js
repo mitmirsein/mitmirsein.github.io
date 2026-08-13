@@ -52,7 +52,7 @@ const libraryData = [
     "subtitle": "서방 교회의 맥락에서 교리의 발전",
     "author": "아돌프 폰 하르낙",
     "status": "published",
-    "price": "18,000원",
+    "price": "5,300원",
     "tags": ["교리", "교리사", "명저번역프로젝트"],
     "cover": "./images/book_2.jpg",
     "links": [
@@ -75,7 +75,7 @@ const libraryData = [
     "subtitle": "동방 교회의 틀에서 교리의 발생과 전개",
     "author": "아돌프 폰 하르낙",
     "status": "published",
-    "price": "18,000원",
+    "price": "5,300원",
     "tags": ["교리", "교리사", "명저번역프로젝트"],
     "cover": "./images/book_3.jpg",
     "links": [
@@ -96,7 +96,7 @@ const libraryData = [
     "subtitle": "Grundriss der Dogmengeschichte",
     "author": "라인홀트 제베르크",
     "status": "published",
-    "price": "18,000원",
+    "price": "5,300원",
     "tags": ["교리", "교리사", "명저번역프로젝트"],
     "cover": "./images/book_20.jpg",
     "links": [
@@ -119,7 +119,7 @@ const libraryData = [
     "subtitle": "Die Grundwahrheiten der christlichen Religion",
     "author": "라인홀트 제베르크",
     "status": "published",
-    "price": "18,000원",
+    "price": "5,000원",
     "tags": ["기독교 소개", "명저번역프로젝트"],
     "cover": "./images/book_4.jpg",
     "links": [
@@ -141,7 +141,7 @@ const libraryData = [
     "subtitle": "Martin Luther und die Grundlegung der Reformation",
     "author": "아돌프 폰 하르낙",
     "status": "published",
-    "price": "18,000원",
+    "price": "1,500원",
     "tags": ["루터", "명저번역프로젝트", "종교개혁"],
     "cover": "./images/book_5.jpg",
     "links": [
@@ -164,6 +164,7 @@ const libraryData = [
     "subtitle": "조직신학의 거두 판넨베르크 입문",
     "author": "이장섭",
     "status": "판매중",
+    "price": "11,000원",
     "tags": ["조직신학", "판넨베르크"],
     "cover": "./images/book_6.jpg",
     "links": [],
@@ -184,6 +185,7 @@ const libraryData = [
     "subtitle": "신학은 과연 학문인가?",
     "author": "이장섭",
     "status": "재쇄 준비중",
+    "price": "11,000원",
     "tags": ["조직신학", "판넨베르크", "신학 방법론"],
     "cover": "./images/book_13.jpg",
     "desc": "신학이 현대 학문의 기준에서 어떻게 정당성을 가질 수 있는지 탐구한 역작입니다.",
@@ -198,7 +200,7 @@ const libraryData = [
     "subtitle": "문제제기 및 해설",
     "author": "김재진",
     "status": "published",
-    "price": "18,000원",
+    "price": "3,500원",
     "tags": ["세례", "유아세례", "침례"],
     "cover": "./images/book_7.jpg",
     "links": [
@@ -269,7 +271,7 @@ const libraryData = [
     "subtitle": "대림절 묵상",
     "author": "김재진",
     "status": "published",
-    "price": "18,000원",
+    "price": "6,500원",
     "tags": ["대림절", "묵상", "성탄절"],
     "cover": "./images/book_11.jpg",
     "links": [
@@ -296,6 +298,7 @@ const libraryData = [
     "subtitle": "성경 읽기와 설교 2",
     "author": "홍연경",
     "status": "판매중",
+    "price": "8,900원",
     "tags": ["설교", "성경 읽기", "성경 해석"],
     "cover": "./images/book_8.jpg",
     "links": [
@@ -322,6 +325,7 @@ const libraryData = [
     "subtitle": "성경의 표면적 차원을 넘어서",
     "author": "홍연경",
     "status": "판매중",
+    "price": "2,000원",
     "tags": ["설교", "성경 읽기", "성경 해석"],
     "cover": "./images/book_9.jpg",
     "links": [
@@ -351,6 +355,7 @@ const libraryData = [
     "subtitle": "대림절 설교집",
     "author": "홍연경",
     "status": "판매중",
+    "price": "5,000원",
     "tags": ["대림절", "설교", "성경 읽기"],
     "cover": "./images/book_12.jpg",
     "links": [
@@ -393,7 +398,7 @@ const libraryData = [
     "subtitle": "하나님과 진실한 만남의 기억 시리즈",
     "author": "김용식",
     "status": "published",
-    "price": "18,000원",
+    "price": "21,000원",
     "tags": ["설교", "성경 읽기"],
     "cover": "./images/book_16.jpg",
     "links": [
