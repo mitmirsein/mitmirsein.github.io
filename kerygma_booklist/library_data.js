@@ -25,7 +25,7 @@ const libraryData = [
     "subtitle": "영혼의 불멸성에 관하여",
     "author": "테르툴리아누스 | 조영호 감수",
     "status": "published",
-    "price": "18,000원",
+    "price": "5,300원",
     "tags": ["교부", "영혼론", "명저번역프로젝트"],
     "cover": "./images/book_1.jpg",
     "links": [
@@ -225,7 +225,7 @@ const libraryData = [
     "subtitle": "성경의 5차원의 인지구조",
     "author": "김재진",
     "status": "published",
-    "price": "18,000원",
+    "price": "17,000원",
     "tags": ["성경 읽기", "성경 해석", "인지구조"],
     "cover": "./images/book_10.jpg",
     "links": [
