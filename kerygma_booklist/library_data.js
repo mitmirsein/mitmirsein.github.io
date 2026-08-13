@@ -25,6 +25,7 @@ const libraryData = [
     "subtitle": "영혼의 불멸성에 관하여",
     "author": "테르툴리아누스 | 조영호 감수",
     "status": "published",
+    "price": "18,000원",
     "tags": ["교부", "영혼론", "명저번역프로젝트"],
     "cover": "./images/book_1.jpg",
     "links": [
@@ -51,6 +52,7 @@ const libraryData = [
     "subtitle": "서방 교회의 맥락에서 교리의 발전",
     "author": "아돌프 폰 하르낙",
     "status": "published",
+    "price": "18,000원",
     "tags": ["교리", "교리사", "명저번역프로젝트"],
     "cover": "./images/book_2.jpg",
     "links": [
@@ -73,6 +75,7 @@ const libraryData = [
     "subtitle": "동방 교회의 틀에서 교리의 발생과 전개",
     "author": "아돌프 폰 하르낙",
     "status": "published",
+    "price": "18,000원",
     "tags": ["교리", "교리사", "명저번역프로젝트"],
     "cover": "./images/book_3.jpg",
     "links": [
@@ -93,6 +96,7 @@ const libraryData = [
     "subtitle": "Grundriss der Dogmengeschichte",
     "author": "라인홀트 제베르크",
     "status": "published",
+    "price": "18,000원",
     "tags": ["교리", "교리사", "명저번역프로젝트"],
     "cover": "./images/book_20.jpg",
     "links": [
@@ -115,6 +119,7 @@ const libraryData = [
     "subtitle": "Die Grundwahrheiten der christlichen Religion",
     "author": "라인홀트 제베르크",
     "status": "published",
+    "price": "18,000원",
     "tags": ["기독교 소개", "명저번역프로젝트"],
     "cover": "./images/book_4.jpg",
     "links": [
@@ -136,6 +141,7 @@ const libraryData = [
     "subtitle": "Martin Luther und die Grundlegung der Reformation",
     "author": "아돌프 폰 하르낙",
     "status": "published",
+    "price": "18,000원",
     "tags": ["루터", "명저번역프로젝트", "종교개혁"],
     "cover": "./images/book_5.jpg",
     "links": [
@@ -192,6 +198,7 @@ const libraryData = [
     "subtitle": "문제제기 및 해설",
     "author": "김재진",
     "status": "published",
+    "price": "18,000원",
     "tags": ["세례", "유아세례", "침례"],
     "cover": "./images/book_7.jpg",
     "links": [
@@ -218,6 +225,7 @@ const libraryData = [
     "subtitle": "성경의 5차원의 인지구조",
     "author": "김재진",
     "status": "published",
+    "price": "18,000원",
     "tags": ["성경 읽기", "성경 해석", "인지구조"],
     "cover": "./images/book_10.jpg",
     "links": [
@@ -261,6 +269,7 @@ const libraryData = [
     "subtitle": "대림절 묵상",
     "author": "김재진",
     "status": "published",
+    "price": "18,000원",
     "tags": ["대림절", "묵상", "성탄절"],
     "cover": "./images/book_11.jpg",
     "links": [
@@ -384,6 +393,7 @@ const libraryData = [
     "subtitle": "하나님과 진실한 만남의 기억 시리즈",
     "author": "김용식",
     "status": "published",
+    "price": "18,000원",
     "tags": ["설교", "성경 읽기"],
     "cover": "./images/book_16.jpg",
     "links": [
@@ -407,6 +417,7 @@ const libraryData = [
     "subtitle": "Bible Interpretation and Meditation",
     "author": "Michael Hong",
     "status": "published",
+    "price": "18,000원",
     "tags": ["Bible Interpretation", "Preaching", "Sermon"],
     "cover": "./images/book_17.jpg",
     "links": [
@@ -430,6 +441,7 @@ const libraryData = [
     "subtitle": "Bible reading and preaching",
     "author": "Michael Hong",
     "status": "published",
+    "price": "18,000원",
     "tags": ["Bible Reading", "Preaching", "Sermon"],
     "cover": "./images/book_18.jpg",
     "links": [

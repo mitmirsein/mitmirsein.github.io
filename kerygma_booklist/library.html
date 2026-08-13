@@ -159,7 +159,10 @@
                             ${(book.tags || []).slice(0,2).map(tag => `<span class="tag-pill">#${tag}</span>`).join('')}
                         </div>
                         <h3 class="text-lg font-bold text-white mb-2 leading-snug group-hover:text-sky-400 transition-colors line-clamp-2 font-serif">${book.title}</h3>
-                        <p class="text-slate-400 text-sm mb-4 line-clamp-1 border-t border-slate-800 pt-3 mt-auto">${book.author}</p>
+                        <div class="text-slate-400 text-sm mb-4 border-t border-slate-800 pt-3 mt-auto flex justify-between items-center">
+                            <span class="line-clamp-1">${book.author}</span>
+                            <span class="text-sky-400 font-bold text-xs shrink-0 ml-2">${book.price || '18,000원'}</span>
+                        </div>
                     </div>
                 `;
                 bookGrid.appendChild(card);
