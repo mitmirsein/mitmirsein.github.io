@@ -20,25 +20,6 @@ const bioKasemann = "에른스트 케제만(Ernst Käsemann)은 현대 신약학
 
 const libraryData = [
   {
-    "id": "0-dsa",
-    "title": "노예의지론 (De Servo Arbitrio)",
-    "subtitle": "바이마르판(WA 18, 600–787) 완역 라틴어 대조 정본 웹북",
-    "author": "마르틴 루터",
-    "status": "published",
-    "tags": ["루터", "노예의지론", "종교개혁", "정본웹북"],
-    "cover": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
-    "links": [
-        { "site": "노예의지론 웹북 읽기", "url": "https://dsa-wa.vercel.app/" }
-    ],
-    "desc": "종교개혁의 결정적 변증서인 마르틴 루터의 『노예의지론』 바이마르판(WA 18) 전권 완역 라틴어 대조 정본 디지털 웹북입니다.",
-    "long_desc": `<p><strong>종교개혁의 결정적 명저 마르틴 루터의 『노예의지론』(De servo arbitrio, 1525) 전권 완역 웹북!</strong></p>
-<p>바이마르판(WA 18, 600–787) 라틴어 원문 188페이지 전체(총 89개 섹션)를 라틴어-한국어 1:1 행 번호 대조 및 독서 최적화 타이포그래피, WA 쪽수 바로가기, 학술 용어집 팝업 툴팁을 완벽히 지원하는 정본 학술 디지털 웹북으로 구축했습니다.</p>`,
-    "author_bio": "마르틴 루터(Martin Luther, 1483~1546): 종교개혁가이자 비텐베르크 대학교 신학 교수. 1517년 95개 조항 반박문을 시작으로 오직 은혜, 오직 믿음, 오직 성경을 선언하며 서양 역사와 신학의 패러다임을 혁명적으로 바꾼 거두."
-  },
-
-
-
-  {
     "id": "1",
     "title": "영혼론",
     "subtitle": "영혼의 불멸성에 관하여",
