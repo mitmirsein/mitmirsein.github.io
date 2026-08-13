@@ -470,6 +470,7 @@ const libraryData = [
     "subtitle": "조덕영 시집",
     "author": "조덕영",
     "status": "archived",
+    "price": "10,000원",
     "tags": ["시", "기독교 문학"],
     "cover": "./images/book_19.jpg",
     "links": [
