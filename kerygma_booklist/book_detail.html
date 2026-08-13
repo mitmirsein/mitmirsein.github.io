@@ -177,8 +177,45 @@
             document.getElementById('orderModal').classList.remove('flex');
         };
 
-        window.handleOrderSubmit = (e) => {
+        window.handleOrderSubmit = async (e) => {
             e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.innerText : "주문 및 결제 신청하기";
+            if (submitBtn) {
+                submitBtn.innerText = "주문 접수 중...";
+                submitBtn.disabled = true;
+            }
+
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const address = document.getElementById('orderAddress').value;
+            const payMethod = document.getElementById('orderPayMethod').value;
+            const bookTitle = document.getElementById('orderBookTitle').innerText;
+
+            try {
+                await fetch("https://formsubmit.co/ajax/mitmirsein@gmail.com", {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `[케리그마 도서주문] ${bookTitle} - ${name}님`,
+                        "도서명": bookTitle,
+                        "주문자성함": name,
+                        "연락처": phone,
+                        "배송지주소": address,
+                        "결제방식": payMethod === 'card' ? '신용/체크카드 결제 링크 요청' : '무통장 입금'
+                    })
+                });
+            } catch (err) {
+                console.error("Order submission notification error:", err);
+            }
+
+            if (submitBtn) {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
             document.getElementById('orderForm').classList.add('hidden');
             document.getElementById('orderSuccessMsg').classList.remove('hidden');
         };
