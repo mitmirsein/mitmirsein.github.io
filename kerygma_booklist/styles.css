@@ -1,0 +1,346 @@
+/* ============================================
+   KERYGMA Library Design System
+   ============================================ */
+
+/* CSS Variables (Design Tokens) */
+:root {
+  /* Colors */
+  --color-bg: #020617;
+  --color-surface: rgba(15, 23, 42, 0.6);
+  --color-surface-solid: #0f172a;
+  --color-border: rgba(255, 255, 255, 0.05);
+  --color-border-hover: rgba(255, 255, 255, 0.1);
+  
+  --color-primary: #38bdf8;    /* sky-400 */
+  --color-primary-dim: rgba(56, 189, 248, 0.3);
+  --color-accent: #a78bfa;     /* purple-400 */
+  --color-accent-dim: rgba(167, 139, 250, 0.3);
+  
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-text-dim: #64748b;
+  
+  --color-success: #4ade80;
+  --color-success-bg: rgba(74, 222, 128, 0.1);
+  --color-warning: #fb923c;
+  --color-warning-bg: rgba(251, 146, 60, 0.1);
+  --color-danger: #f87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.1);
+  
+  /* Typography */
+  --font-main: 'Outfit', 'Noto Sans KR', sans-serif;
+  --font-serif: 'Noto Serif KR', serif;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-glow: 0 0 15px rgba(56, 189, 248, 0.3);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 10px 20px -5px rgba(0, 0, 0, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-smooth: 400ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* Font Utility */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* ============================================
+   Glass Panel Component
+   ============================================ */
+
+.glass-panel {
+  background: var(--color-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}
+
+/* ============================================
+   Neon Text Effect
+   ============================================ */
+
+.neon-text {
+  text-shadow: 0 0 10px var(--color-primary-dim);
+}
+
+.neon-text-purple {
+  text-shadow: 0 0 10px var(--color-accent-dim);
+}
+
+/* ============================================
+   Book Card Component
+   ============================================ */
+
+.book-card {
+  transition: all var(--transition-smooth);
+  transform-style: preserve-3d;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.book-card:hover .book-cover {
+  transform: scale(1.05);
+}
+
+.book-cover {
+  transition: transform 500ms ease;
+}
+
+/* ============================================
+   Status Badges
+   ============================================ */
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(8px);
+}
+
+.status-available {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.status-reprint {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+}
+
+.status-archived {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+/* ============================================
+   Filter Buttons
+   ============================================ */
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.filter-btn:not(.active) {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid var(--color-border-hover);
+  color: var(--color-text-muted);
+}
+
+.filter-btn:not(.active):hover {
+  border-color: var(--color-primary-dim);
+  color: var(--color-primary);
+}
+
+.filter-btn.active {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid var(--color-primary-dim);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   Tag Pills
+   ============================================ */
+
+.tag-pill {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-solid);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: color var(--transition-normal);
+}
+
+.book-card:hover .tag-pill {
+  color: var(--color-primary);
+}
+
+/* ============================================
+   Quote Card Component
+   ============================================ */
+
+.quote-card {
+  font-family: var(--font-serif);
+  position: relative;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+  border-left: 4px solid var(--color-primary);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-normal);
+}
+
+.quote-card:hover {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   Prose (Rich Text)
+   ============================================ */
+
+.prose p {
+  margin-bottom: 1.2rem;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-serif);
+}
+
+.prose strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ============================================
+   Custom Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-solid);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-dim);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ============================================
+   Noise Texture Overlay
+   ============================================ */
+
+.noise-overlay::before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  content: "";
+  opacity: 0.05;
+  z-index: 50;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   Card Fade-In Animation
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Staggered animation delay using CSS custom property */
+.book-card {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  animation-delay: calc(var(--card-index, 0) * 50ms);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.text-gradient {
+  background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+

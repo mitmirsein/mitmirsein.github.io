@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERYGMA Library</title>
+    <meta name="description" content="케리그마 출판사의 신학 도서 라이브러리. 교리사, 조직신학, 설교, 묵상 등 깊이 있는 신학 서적을 만나보세요.">
+    <meta property="og:title" content="KERYGMA Library - 케리그마 출판 도서">
+    <meta property="og:description" content="깊이 있는 신학적 통찰과 영성을 만나보세요.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen">
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-b-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="https://kerygma.co.kr/kerygma_booklist/library.html" class="flex items-center gap-2 text-white font-black tracking-tighter text-xl">
+                <i data-lucide="library" class="w-5 h-5 text-sky-500"></i>
+                KERYGMA <span class="text-sky-500 font-light">BOOKLIST</span>
+            </a>
+            <div class="flex gap-4">
+                <input type="text" id="searchInput" placeholder="Search titles, authors..." 
+                       class="bg-slate-900/50 border border-slate-700 rounded-full px-4 py-1.5 text-xs focus:outline-none focus:border-sky-500 w-64 text-slate-300 transition-all">
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-24 pb-20 px-6 max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 neon-text mb-2">
+                    케리그마 출판 도서
+                </h1>
+                <p class="text-slate-400 text-lg">깊이 있는 신학적 통찰과 영성을 만나보세요.</p>
+            </div>
+            
+            <!-- Filters & Sort -->
+            <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <div class="flex justify-center gap-2 flex-wrap" id="filterContainer">
+                    <button onclick="filterBooks('all')" class="filter-btn active px-4 py-2 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-sm font-medium transition-all hover:bg-sky-500/20 shadow-[0_0_15px_rgba(14,165,233,0.3)]">전체</button>
+                    <button onclick="filterBooks('판매중')" class="filter-btn px-4 py-2 rounded-full border border-slate-700 bg-slate-800/50 text-slate-400 text-sm font-medium transition-all hover:border-sky-500/50 hover:text-sky-400">판매중</button>
+                    <button onclick="filterBooks('재쇄 준비중')" class="filter-btn px-4 py-2 rounded-full border border-slate-700 bg-slate-800/50 text-slate-400 text-sm font-medium transition-all hover:border-sky-500/50 hover:text-sky-400">재쇄 준비중</button>
+                    <button onclick="filterBooks('절판')" class="filter-btn px-4 py-2 rounded-full border border-slate-700 bg-slate-800/50 text-slate-400 text-sm font-medium transition-all hover:border-sky-500/50 hover:text-sky-400">절판</button>
+                </div>
+                <select id="sortSelect" class="bg-slate-900/80 border border-slate-700 rounded-full px-4 py-2 text-sm text-slate-300 cursor-pointer focus:outline-none focus:border-sky-500 transition-colors">
+                    <option value="id">기본순</option>
+                    <option value="title">제목순</option>
+                    <option value="author">저자순</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Book Grid -->
+        <div id="bookGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Books will be injected here -->
+        </div>
+    </div>
+
+    <script type="module">
+        import libraryData from './library_data.js';
+        lucide.createIcons();
+
+        const bookGrid = document.getElementById('bookGrid');
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+
+        // State
+        let currentFilter = 'all';
+        let currentSort = 'id';
+
+        // Read URL params on load
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status')) {
+            currentFilter = urlParams.get('status');
+        }
+        if (urlParams.get('sort')) {
+            currentSort = urlParams.get('sort');
+            sortSelect.value = currentSort;
+        }
+
+        // Update URL without reload
+        function updateURL() {
+            const params = new URLSearchParams();
+            if (currentFilter !== 'all') params.set('status', currentFilter);
+            if (currentSort !== 'id') params.set('sort', currentSort);
+            const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
+            window.history.replaceState({}, '', newURL);
+        }
+
+        // Sort function
+        function sortBooks(books) {
+            const sorted = [...books];
+            switch (currentSort) {
+                case 'title':
+                    sorted.sort((a, b) => a.title.localeCompare(b.title, 'ko'));
+                    break;
+                case 'author':
+                    sorted.sort((a, b) => a.author.localeCompare(b.author, 'ko'));
+                    break;
+                default: // 'id' - original order (supports alphanumeric like 3b)
+                    sorted.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+            }
+            return sorted;
+        }
+
+        // Render Books with animation
+        function renderBooks(books) {
+            bookGrid.innerHTML = '';
+            
+            if (books.length === 0) {
+                bookGrid.innerHTML = '<div class="col-span-full text-center text-slate-500 py-20">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            const sortedBooks = sortBooks(books);
+
+            sortedBooks.forEach((book, index) => {
+                let statusBadge = '';
+                const s = (book.status || '').toLowerCase();
+                if (s.includes('판매') || s.includes('published') || s === 'published') {
+                    statusBadge = '<span class="absolute top-3 right-3 status-badge status-available">판매중</span>';
+                } else if (s.includes('절판') || s.includes('archived')) {
+                    statusBadge = '<span class="absolute top-3 right-3 status-badge status-archived">절판</span>';
+                } else if (s.includes('재쇄') || s.includes('준비')) {
+                    statusBadge = '<span class="absolute top-3 right-3 status-badge status-reprint">재쇄준비중</span>';
+                }
+
+                const card = document.createElement('div');
+                card.className = 'book-card group relative bg-slate-900 border border-slate-800 rounded-xl overflow-hidden cursor-pointer h-full flex flex-col hover:border-slate-600 transition-colors';
+                card.style.setProperty('--card-index', index);
+                card.onclick = () => window.location.href = `book_detail.html?id=${book.id}`;
+                
+                const coverImg = book.cover && !book.cover.startsWith('http') 
+                    ? book.cover
+                    : (book.cover || 'https://via.placeholder.com/300x450?text=No+Cover');
+
+                card.innerHTML = `
+                    <div class="relative aspect-[2/3] overflow-hidden bg-slate-950">
+                        <img src="${coverImg}" alt="${book.title}" class="book-cover w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60"></div>
+                        ${statusBadge}
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow relative">
+                        <div class="mb-2 flex flex-wrap gap-1.5">
+                            ${(book.tags || []).slice(0,2).map(tag => `<span class="tag-pill">#${tag}</span>`).join('')}
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug group-hover:text-sky-400 transition-colors line-clamp-2 font-serif">${book.title}</h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-1 border-t border-slate-800 pt-3 mt-auto">${book.author}</p>
+                    </div>
+                `;
+                bookGrid.appendChild(card);
+            });
+        }
+
+        // Filter function
+        function filterData() {
+            return libraryData.filter(book => {
+                const s = (book.status || '').toLowerCase();
+                if (currentFilter === 'all') return true;
+                if (currentFilter === '판매중') return s.includes('판매') || s === 'published';
+                if (currentFilter === '절판') return s.includes('절판') || s === 'archived' || s === 'out_of_print';
+                if (currentFilter === '재쇄 준비중') return s.includes('재쇄') || s.includes('준비') || s === 'reprint_ready';
+                return false;
+            });
+        }
+
+        // Update filter button UI
+        function updateFilterUI() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const txt = btn.innerText.trim();
+                let active = false;
+                if (currentFilter === 'all' && txt === '전체') active = true;
+                if (currentFilter === '판매중' && txt === '판매중') active = true;
+                if (currentFilter === '절판' && txt === '절판') active = true;
+                if (currentFilter === '재쇄 준비중' && txt === '재쇄 준비중') active = true;
+
+                if (active) {
+                    btn.className = "filter-btn active px-4 py-2 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-sm font-medium transition-all shadow-[0_0_15px_rgba(14,165,233,0.3)]";
+                } else {
+                    btn.className = "filter-btn px-4 py-2 rounded-full border border-slate-700 bg-slate-800/50 text-slate-400 text-sm font-medium transition-all hover:border-sky-500/50 hover:text-sky-400";
+                }
+            });
+        }
+
+        // Filter handler (called from HTML onclick)
+        window.filterBooks = (cat) => {
+            currentFilter = cat;
+            updateFilterUI();
+            updateURL();
+            renderBooks(filterData());
+        };
+
+        // Sort handler
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            updateURL();
+            renderBooks(filterData());
+        });
+
+        // Search handler
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = libraryData.filter(book => 
+                book.title.toLowerCase().includes(term) || 
+                book.author.toLowerCase().includes(term) ||
+                (book.tags && book.tags.some(t => t.toLowerCase().includes(term)))
+            );
+            renderBooks(filtered);
+        });
+
+        // Init
+        updateFilterUI();
+        renderBooks(filterData());
+    </script>
+</body>
+</html>
