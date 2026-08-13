@@ -417,7 +417,7 @@ const libraryData = [
     "subtitle": "Bible Interpretation and Meditation",
     "author": "Michael Hong",
     "status": "published",
-    "price": "18,000원",
+    "price": "$12.99",
     "tags": ["Bible Interpretation", "Preaching", "Sermon"],
     "cover": "./images/book_17.jpg",
     "links": [
@@ -441,7 +441,7 @@ const libraryData = [
     "subtitle": "Bible reading and preaching",
     "author": "Michael Hong",
     "status": "published",
-    "price": "18,000원",
+    "price": "$12.99",
     "tags": ["Bible Reading", "Preaching", "Sermon"],
     "cover": "./images/book_18.jpg",
     "links": [
