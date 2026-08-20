@@ -14,7 +14,8 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- PortOne (Iamport) Payment SDK -->
+    <!-- PortOne Payment SDK (V2 & V1) -->
+    <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
     <style>
@@ -849,8 +850,16 @@
     </div>
 
     <script>
-        // PortOne (Iamport) Initialization with Merchant User Code
+        // PortOne V2 / V1 Configuration
+        const PORTONE_STORE_ID = "store-0dc3275e-5581-4ce0-bca1-0eca673d768c";
         const PORTONE_USER_CODE = "imp08841187";
+
+        // Channel Keys for PG Providers
+        const CHANNEL_KEYS = {
+            "html5_inicis": "channel-key-8118f6e6-706b-4669-a522-45b94bc06767",
+            "kcp": "channel-key-49502b57-1a05-45aa-aea7-e97cc16dd833"
+        };
+
         if (typeof IMP !== "undefined") {
             IMP.init(PORTONE_USER_CODE);
         }
@@ -876,18 +885,11 @@
             }
         }
 
-        function requestPortOnePayment(e) {
+        async function requestPortOnePayment(e) {
             if (e) e.preventDefault();
 
-            if (typeof IMP === "undefined") {
-                alert("포트원 SDK가 정상적으로 로드되지 않았습니다. 인터넷 연결을 확인해 주세요.");
-                return;
-            }
-
-            IMP.init(PORTONE_USER_CODE);
-
             const pg = document.getElementById('payPg').value;
-            const payMethod = document.getElementById('payMethod').value;
+            const payMethodRaw = document.getElementById('payMethod').value;
             const orderName = document.getElementById('payProductName').value;
             const amount = parseInt(document.getElementById('payAmount').value, 10) || 1000;
             const buyerName = document.getElementById('buyerName').value.trim() || '홍길동';
@@ -896,36 +898,92 @@
             const buyerAddr = document.getElementById('buyerAddr').value.trim() || '경기도 용인시 기흥구 연원로 49';
             const buyerPostcode = document.getElementById('buyerPostcode').value.trim() || '16885';
 
-            const merchantUid = 'kerygma_test_' + new Date().getTime();
+            const channelKey = CHANNEL_KEYS[pg];
+            const paymentId = 'kerygma_test_' + new Date().getTime();
 
-            const payParams = {
-                pg: pg,
-                pay_method: payMethod,
-                merchant_uid: merchantUid,
-                name: orderName,
-                amount: amount,
-                buyer_email: buyerEmail,
-                buyer_name: buyerName,
-                buyer_tel: buyerTel,
-                buyer_addr: buyerAddr,
-                buyer_postcode: buyerPostcode,
-                m_redirect_url: window.location.href // 모바일 결제 완료 후 복귀 URL
+            // Method mapping for V2 SDK
+            const methodMap = {
+                "card": "CARD",
+                "trans": "TRANSFER",
+                "vbank": "VIRTUAL_ACCOUNT"
             };
+            const v2Method = methodMap[payMethodRaw] || "CARD";
 
-            IMP.request_pay(payParams, function (rsp) {
-                if (rsp.success) {
-                    alert("🎉 [테스트 결제 완료]\n\n" +
-                          "• 결제번호(imp_uid): " + rsp.imp_uid + "\n" +
-                          "• 주문번호(merchant_uid): " + rsp.merchant_uid + "\n" +
-                          "• 결제금액: " + (rsp.paid_amount || amount).toLocaleString() + "원\n" +
-                          "• PG사: " + pg + "\n\n" +
-                          "테스트 모드이므로 실제 과금되지 않거나 자정 전 자동 취소 처리됩니다.");
-                    closePaymentModal();
-                } else {
-                    alert("⚠️ 결제가 취소되었거나 실패하였습니다.\n\n" +
-                          "• 사유: " + (rsp.error_msg || "사용자 결제 취소"));
+            // 1. Try V2 PortOne SDK (Preferred for V2 Channels)
+            if (typeof PortOne !== "undefined" && channelKey) {
+                try {
+                    const response = await PortOne.requestPayment({
+                        storeId: PORTONE_STORE_ID,
+                        channelKey: channelKey,
+                        paymentId: paymentId,
+                        orderName: orderName,
+                        totalAmount: amount,
+                        currency: "CURRENCY_KRW",
+                        payMethod: v2Method,
+                        customer: {
+                            fullName: buyerName,
+                            phoneNumber: buyerTel,
+                            email: buyerEmail,
+                            address: {
+                                addressLine1: buyerAddr,
+                                addressLine2: ""
+                            },
+                            zipcode: buyerPostcode
+                        },
+                        redirectUrl: window.location.href
+                    });
+
+                    if (response && response.code != null) {
+                        alert("⚠️ 결제가 취소되었거나 실패하였습니다.\n\n• 코드: " + response.code + "\n• 사유: " + (response.message || "사용자 결제 취소"));
+                    } else if (response) {
+                        alert("🎉 [테스트 결제 완료]\n\n" +
+                              "• 결제ID(paymentId): " + (response.paymentId || paymentId) + "\n" +
+                              "• 결제금액: " + amount.toLocaleString() + "원\n" +
+                              "• PG채널: " + pg + "\n\n" +
+                              "테스트 모드이므로 실제 과금되지 않거나 자정 전 자동 취소 처리됩니다.");
+                        closePaymentModal();
+                    }
+                    return;
+                } catch (err) {
+                    console.error("PortOne V2 Error:", err);
+                    // Fallback to V1 if V2 throws unexpected error
                 }
-            });
+            }
+
+            // 2. Fallback to V1 SDK with channelKey
+            if (typeof IMP !== "undefined") {
+                IMP.init(PORTONE_USER_CODE);
+                const payParams = {
+                    channelKey: channelKey,
+                    pg: pg,
+                    pay_method: payMethodRaw,
+                    merchant_uid: paymentId,
+                    name: orderName,
+                    amount: amount,
+                    buyer_email: buyerEmail,
+                    buyer_name: buyerName,
+                    buyer_tel: buyerTel,
+                    buyer_addr: buyerAddr,
+                    buyer_postcode: buyerPostcode,
+                    m_redirect_url: window.location.href
+                };
+
+                IMP.request_pay(payParams, function (rsp) {
+                    if (rsp.success) {
+                        alert("🎉 [테스트 결제 완료]\n\n" +
+                              "• 결제번호: " + rsp.imp_uid + "\n" +
+                              "• 주문번호: " + rsp.merchant_uid + "\n" +
+                              "• 결제금액: " + (rsp.paid_amount || amount).toLocaleString() + "원\n\n" +
+                              "테스트 모드이므로 실제 과금되지 않거나 자정 전 자동 취소됩니다.");
+                        closePaymentModal();
+                    } else {
+                        alert("⚠️ 결제가 취소되었거나 실패하였습니다.\n\n• 사유: " + (rsp.error_msg || "사용자 결제 취소"));
+                    }
+                });
+                return;
+            }
+
+            alert("포트원 결제 모듈을 로드하는 중입니다. 페이지를 새로고침한 후 다시 시도해 주세요.");
         }
 
         const modalContents = {
