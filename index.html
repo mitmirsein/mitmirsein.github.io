@@ -480,18 +480,15 @@
                     <div>
                         <h2 class="card-title" style="color: #ffffff;">도서 주문 및 결제</h2>
                         <p class="card-text" style="color: var(--text-main); font-weight: 400; margin-bottom: 16px;">
-                            케리그마 출판물 주문 및 정기 멤버십 결제 시스템.<br>(KG이니시스 / NHN KCP 연동 테스트 지원)
+                            케리그마 출판물 온라인 주문 및 멤버십 결제 시스템.<br>(KG이니시스 / NHN KCP PG사 입점 심사용)
                         </p>
                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <button onclick="openPaymentModal('html5_inicis')" style="background: var(--gold-primary); color: #000; border: none; padding: 7px 14px; font-weight: 700; border-radius: 6px; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: var(--font-kr);">
-                                <i class="fa-solid fa-lock"></i> 이니시스 결제
-                            </button>
-                            <button onclick="openPaymentModal('kcp')" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--glass-border); padding: 7px 14px; font-weight: 600; border-radius: 6px; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: var(--font-kr);">
-                                <i class="fa-solid fa-shield-halved"></i> KCP 결제
+                            <button onclick="openPaymentModal()" style="background: var(--gold-primary); color: #000; border: none; padding: 8px 16px; font-weight: 700; border-radius: 6px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: var(--font-kr);">
+                                <i class="fa-solid fa-lock"></i> 결제 테스트창 열기
                             </button>
                         </div>
                     </div>
-                    <div class="card-arrow" onclick="openPaymentModal('html5_inicis')" style="cursor: pointer; background: var(--gold-primary); color: #000; border-color: var(--gold-primary);"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="card-arrow" onclick="openPaymentModal()" style="cursor: pointer; background: var(--gold-primary); color: #000; border-color: var(--gold-primary);"><i class="fa-solid fa-arrow-right"></i></div>
                 </div>
             </div>
 
@@ -793,11 +790,12 @@
 
             <form id="portonePayForm" onsubmit="requestPortOnePayment(event)">
                 <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">결제 대행사(PG) 선택</label>
-                    <select id="payPg" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; outline: none;">
-                        <option value="html5_inicis">KG 이니시스 (html5_inicis - 웹표준 결제)</option>
-                        <option value="kcp">NHN KCP (kcp - 통합결제)</option>
-                    </select>
+                    <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">결제 솔루션 (포트원 통합 결제)</label>
+                    <div style="padding: 10px 14px; background: #0f172a; border: 1px solid rgba(212,175,55,0.3); border-radius: 6px; color: #ffffff; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary); margin-right: 8px;"></i> 포트원 통합 결제 모듈 (KG이니시스/KCP 심사용)</span>
+                        <span style="font-size: 0.75rem; background: rgba(212,175,55,0.2); color: var(--gold-primary); padding: 2px 8px; border-radius: 4px; font-weight: 600;">테스트 모드</span>
+                    </div>
+                    <input type="hidden" id="payPg" value="html5_inicis">
                 </div>
 
                 <div style="margin-bottom: 14px;">
@@ -888,7 +886,6 @@
         async function requestPortOnePayment(e) {
             if (e) e.preventDefault();
 
-            const pg = document.getElementById('payPg').value;
             const payMethodRaw = document.getElementById('payMethod').value;
             const orderName = document.getElementById('payProductName').value;
             const amount = parseInt(document.getElementById('payAmount').value, 10) || 1000;
@@ -898,7 +895,6 @@
             const buyerAddr = document.getElementById('buyerAddr').value.trim() || '경기도 용인시 기흥구 연원로 49';
             const buyerPostcode = document.getElementById('buyerPostcode').value.trim() || '16885';
 
-            const channelKey = CHANNEL_KEYS[pg];
             const paymentId = 'kerygma_test_' + new Date().getTime();
 
             // Method mapping for PortOne V2 SDK
@@ -908,49 +904,7 @@
                 "vbank": "VIRTUAL_ACCOUNT"
             };
             const v2Method = methodMap[payMethodRaw] || "CARD";
-            const pgTitle = (pg === "kcp") ? "NHN KCP" : "KG 이니시스";
 
-            // 1. NHN KCP: V1 모듈 채널이므로 V1 IMP SDK로 호출
-            if (pg === "kcp") {
-                if (typeof IMP === "undefined") {
-                    alert("포트원 V1 SDK가 로드되지 않았습니다. 브라우저 새로고침 후 다시 시도해 주세요.");
-                    return;
-                }
-                try {
-                    IMP.init(PORTONE_USER_CODE);
-                    IMP.request_pay({
-                        pg: "kcp.AO09C",
-                        pay_method: payMethodRaw,
-                        merchant_uid: paymentId,
-                        name: orderName,
-                        amount: amount,
-                        buyer_email: buyerEmail,
-                        buyer_name: buyerName,
-                        buyer_tel: buyerTel,
-                        buyer_addr: buyerAddr,
-                        buyer_postcode: buyerPostcode,
-                        m_redirect_url: window.location.href
-                    }, function (rsp) {
-                        if (rsp.success) {
-                            alert("🎉 [NHN KCP 테스트 결제 완료]\n\n" +
-                                  "• 결제번호: " + rsp.imp_uid + "\n" +
-                                  "• 주문번호: " + rsp.merchant_uid + "\n" +
-                                  "• 결제금액: " + (rsp.paid_amount || amount).toLocaleString() + "원\n" +
-                                  "• PG사: NHN KCP\n\n" +
-                                  "테스트 모드이므로 실제 과금되지 않거나 자정 전 자동 취소됩니다.");
-                            closePaymentModal();
-                        } else {
-                            alert("⚠️ [NHN KCP 결제 취소/실패]\n\n• 사유: " + (rsp.error_msg || "사용자 결제 취소"));
-                        }
-                    });
-                } catch (e) {
-                    console.error("KCP Request Error:", e);
-                    alert("⚠️ [NHN KCP 호출 예외]\n\n• 오류: " + e.message);
-                }
-                return;
-            }
-
-            // 2. KG 이니시스: V2 모듈 채널이므로 V2 PortOne SDK로 호출
             if (typeof PortOne !== "undefined") {
                 try {
                     const response = await PortOne.requestPayment({
@@ -975,19 +929,19 @@
                     });
 
                     if (response && response.code != null) {
-                        alert("⚠️ [KG 이니시스 결제 취소/실패]\n\n• 코드: " + response.code + "\n• 사유: " + (response.message || "사용자 결제 취소"));
+                        alert("⚠️ [결제 취소/실패]\n\n• 코드: " + response.code + "\n• 사유: " + (response.message || "사용자 결제 취소"));
                     } else if (response) {
-                        alert("🎉 [KG 이니시스 테스트 결제 완료]\n\n" +
+                        alert("🎉 [포트원 테스트 결제 완료]\n\n" +
                               "• 결제ID: " + (response.paymentId || paymentId) + "\n" +
                               "• 결제금액: " + amount.toLocaleString() + "원\n" +
-                              "• PG사: KG 이니시스\n\n" +
+                              "• 결제방식: 포트원 통합결제 (KG이니시스/KCP 심사)\n\n" +
                               "테스트 모드이므로 실제 과금되지 않거나 자정 전 자동 취소 처리됩니다.");
                         closePaymentModal();
                     }
                     return;
                 } catch (err) {
-                    console.error("PortOne Inicis Error:", err);
-                    alert("⚠️ [KG 이니시스 결제창 호출 오류]\n\n• 상세: " + (err.message || JSON.stringify(err)));
+                    console.error("PortOne Error:", err);
+                    alert("⚠️ [결제창 호출 오류]\n\n• 상세: " + (err.message || JSON.stringify(err)));
                     return;
                 }
             }
