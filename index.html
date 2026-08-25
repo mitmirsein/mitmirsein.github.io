@@ -810,10 +810,8 @@
 
                 <div style="margin-bottom: 14px;">
                     <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">주문 상품</label>
-                    <select id="payProductName" onchange="updatePayAmount(this.value)" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; outline: none;">
-                        <option value="성경의 인지구조로 성경 해석" data-amount="17000" selected>성경의 인지구조로 성경 해석 - 17,000원</option>
-                        <option value="성경 읽기와 설교" data-amount="18000">성경 읽기와 설교 - 18,000원</option>
-                        <option value="교회사개요(동방교회)" data-amount="20000">교회사개요(동방교회) - 20,000원</option>
+                    <select id="payProductName" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; outline: none;">
+                        <option value="성경의 인지구조로 성경 해석" data-amount="17000" selected>성경의 인지구조로 성경 해석 (17,000원)</option>
                     </select>
                 </div>
 
@@ -828,7 +826,7 @@
                     </div>
                     <div>
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">결제 금액 (원)</label>
-                        <input type="number" id="payAmount" value="17000" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; box-sizing: border-box; outline: none;">
+                        <input type="number" id="payAmount" value="17000" readonly style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; box-sizing: border-box; outline: none;">
                     </div>
                 </div>
 
