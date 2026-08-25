@@ -147,9 +147,10 @@
                 <div>
                     <label class="block text-xs text-slate-400 mb-1">결제 수단 선택 *</label>
                     <select id="orderPayMethod" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-sky-500">
-                        <option value="inicis_card">신용/체크카드 (KG이니시스 전자결제)</option>
-                        <option value="inicis_trans">실시간 계좌이체 (KG이니시스)</option>
-                        <option value="inicis_vbank">가상계좌 (KG이니시스)</option>
+                        <option value="kcp_card" selected>신용/체크카드 (NHN KCP 전자결제)</option>
+                        <option value="kcp_trans">실시간 계좌이체 (NHN KCP)</option>
+                        <option value="kcp_vbank">가상계좌 (NHN KCP)</option>
+                        <option value="inicis_card">신용/체크카드 (KG이니시스)</option>
                         <option value="bank">무통장 계좌 직접 입금</option>
                     </select>
                 </div>
@@ -159,7 +160,7 @@
                         <span>도서 결제 및 주문하기</span>
                     </button>
                 </div>
-                <p class="text-[11px] text-slate-500 text-center">KG이니시스 안전 결제 시스템을 통해 결제가 진행됩니다.</p>
+                <p class="text-[11px] text-slate-500 text-center">NHN KCP / KG이니시스 안전 결제 시스템을 통해 결제가 진행됩니다.</p>
             </form>
             
             <div id="orderSuccessMsg" class="hidden text-center py-8">
@@ -176,6 +177,7 @@
 
         const PORTONE_STORE_ID = "store-0dc3275e-5581-4ce0-bca1-0eca673d768c";
         const CHANNEL_KEYS = {
+            "kcp": "channel-key-1dd611c4-ba3d-482c-a02c-05efb0563c4e",
             "html5_inicis": "channel-key-8118f6e6-706b-4669-a522-45b94bc06767"
         };
 
@@ -211,13 +213,17 @@
                 if (parsed > 0) priceNum = parsed;
             }
 
-            if (payMethod.startsWith('inicis_')) {
+            const isOnlinePay = payMethod.startsWith('kcp_') || payMethod.startsWith('inicis_');
+
+            if (isOnlinePay) {
+                const channelKey = payMethod.startsWith('kcp_') ? CHANNEL_KEYS["kcp"] : CHANNEL_KEYS["html5_inicis"];
+                const methodType = payMethod.replace('kcp_', '').replace('inicis_', '');
                 const methodMap = {
-                    "inicis_card": "CARD",
-                    "inicis_trans": "TRANSFER",
-                    "inicis_vbank": "VIRTUAL_ACCOUNT"
+                    "card": "CARD",
+                    "trans": "TRANSFER",
+                    "vbank": "VIRTUAL_ACCOUNT"
                 };
-                const v2Method = methodMap[payMethod] || "CARD";
+                const v2Method = methodMap[methodType] || "CARD";
                 const paymentId = 'kerygma_order_' + new Date().getTime();
 
                 if (typeof PortOne !== "undefined") {
@@ -228,7 +234,7 @@
                     try {
                         const response = await PortOne.requestPayment({
                             storeId: PORTONE_STORE_ID,
-                            channelKey: CHANNEL_KEYS["html5_inicis"],
+                            channelKey: channelKey,
                             paymentId: paymentId,
                             orderName: bookTitle,
                             totalAmount: priceNum,

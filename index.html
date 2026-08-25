@@ -800,12 +800,11 @@
 
             <form id="portonePayForm" onsubmit="requestPortOnePayment(event)">
                 <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">결제 솔루션 (포트원 KG이니시스 결제)</label>
-                    <div style="padding: 10px 14px; background: #0f172a; border: 1px solid rgba(212,175,55,0.3); border-radius: 6px; color: #ffffff; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;">
-                        <span><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary); margin-right: 8px;"></i> KG이니시스 전자결제 (포트원 연동)</span>
-                        <span style="font-size: 0.75rem; background: rgba(212,175,55,0.2); color: var(--gold-primary); padding: 2px 8px; border-radius: 4px; font-weight: 600;">실시간 결제</span>
-                    </div>
-                    <input type="hidden" id="payPg" value="html5_inicis">
+                    <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">결제 솔루션 (포트원 전자결제)</label>
+                    <select id="payPg" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(212,175,55,0.3); border-radius: 6px; color: #ffffff; font-size: 0.9rem; outline: none;">
+                        <option value="kcp" selected>NHN KCP 전자결제 (실결제 개통)</option>
+                        <option value="html5_inicis">KG이니시스 전자결제</option>
+                    </select>
                 </div>
 
                 <div style="margin-bottom: 14px;">
@@ -842,7 +841,7 @@
                 </div>
 
                 <div style="font-size: 0.75rem; color: #94a3b8; background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2); padding: 10px; border-radius: 6px; margin-bottom: 20px;">
-                    <i class="fa-solid fa-circle-info" style="color: var(--gold-primary);"></i> <strong>안내</strong>: 케리그마출판사의 공식 PG 결제창(KG이니시스)이 연결되어 안전하게 결제가 진행됩니다.
+                    <i class="fa-solid fa-circle-info" style="color: var(--gold-primary);"></i> <strong>안내</strong>: 케리그마출판사의 공식 PG 결제창(NHN KCP / KG이니시스)이 연결되어 안전하게 결제가 진행됩니다.
                 </div>
 
                 <div style="display: flex; gap: 10px; justify-content: flex-end;">
@@ -856,14 +855,14 @@
     </div>
 
     <script>
-        // PortOne V2 / V1 Configuration
+        // PortOne V2 Configuration
         const PORTONE_STORE_ID = "store-0dc3275e-5581-4ce0-bca1-0eca673d768c";
         const PORTONE_USER_CODE = "imp08841187";
 
-        // Channel Keys for PG Providers
+        // Channel Keys for PG Providers (Live / Test)
         const CHANNEL_KEYS = {
-            "html5_inicis": "channel-key-8118f6e6-706b-4669-a522-45b94bc06767",
-            "kcp": "channel-key-49502b57-1a05-45aa-aea7-e97cc16dd833"
+            "kcp": "channel-key-1dd611c4-ba3d-482c-a02c-05efb0563c4e",
+            "html5_inicis": "channel-key-8118f6e6-706b-4669-a522-45b94bc06767"
         };
 
         if (typeof IMP !== "undefined") {
@@ -894,6 +893,10 @@
         async function requestPortOnePayment(e) {
             if (e) e.preventDefault();
 
+            const pgKey = document.getElementById('payPg').value || 'kcp';
+            const channelKey = CHANNEL_KEYS[pgKey] || CHANNEL_KEYS["kcp"];
+            const pgTitle = (pgKey === 'kcp') ? 'NHN KCP' : 'KG이니시스';
+
             const payMethodRaw = document.getElementById('payMethod').value;
             const orderName = document.getElementById('payProductName').value;
             const amount = parseInt(document.getElementById('payAmount').value, 10) || 17000;
@@ -917,7 +920,7 @@
                 try {
                     const response = await PortOne.requestPayment({
                         storeId: PORTONE_STORE_ID,
-                        channelKey: CHANNEL_KEYS["html5_inicis"],
+                        channelKey: channelKey,
                         paymentId: paymentId,
                         orderName: orderName,
                         totalAmount: amount,
@@ -943,7 +946,7 @@
                               "• 주문도서: " + orderName + "\n" +
                               "• 결제ID: " + (response.paymentId || paymentId) + "\n" +
                               "• 결제금액: " + amount.toLocaleString() + "원\n" +
-                              "• 결제방식: KG이니시스 전자결제\n\n" +
+                              "• 결제방식: " + pgTitle + " 전자결제\n\n" +
                               "도서 주문 및 결제가 성공적으로 처리되었습니다.");
                         closePaymentModal();
                     }
