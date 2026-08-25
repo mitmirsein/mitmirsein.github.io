@@ -480,11 +480,11 @@
                     <div>
                         <h2 class="card-title" style="color: #ffffff;">도서 주문 및 결제</h2>
                         <p class="card-text" style="color: var(--text-main); font-weight: 400; margin-bottom: 16px;">
-                            케리그마 출판물 온라인 주문 및 멤버십 결제 시스템.<br>(KG이니시스 / NHN KCP PG사 입점 심사용)
+                            『성경의 인지구조로 성경 해석』(17,000원) 등 케리그마 도서 주문 및 온라인 결제 시스템.
                         </p>
                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                             <button onclick="openPaymentModal()" style="background: var(--gold-primary); color: #000; border: none; padding: 8px 16px; font-weight: 700; border-radius: 6px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: var(--font-kr);">
-                                <i class="fa-solid fa-lock"></i> 결제 테스트창 열기
+                                <i class="fa-solid fa-book-open"></i> 도서 주문 / 결제하기
                             </button>
                         </div>
                     </div>
@@ -777,23 +777,33 @@
         </div>
     </div>
 
-    <!-- PORTONE PAYMENT MODAL (PG 입점심사용 테스트 결제창) -->
+    <!-- PORTONE PAYMENT MODAL (PG 입점심사 및 실시간 도서 결제창) -->
     <div id="paymentModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px;">
         <div style="background: #1e293b; color: #f8fafc; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px 28px; border-radius: 14px; border: 1px solid var(--gold-glow); position: relative; font-family: var(--font-kr); line-height: 1.6; font-size: 0.9rem; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
             <button onclick="closePaymentModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">&times;</button>
             
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                <i class="fa-solid fa-credit-card" style="color: var(--gold-primary); font-size: 1.2rem;"></i>
+                <i class="fa-solid fa-book-open" style="color: var(--gold-primary); font-size: 1.2rem;"></i>
                 <h3 style="font-size: 1.3rem; font-weight: 700; color: #ffffff; margin: 0;">도서 주문 및 결제</h3>
             </div>
-            <p style="font-size: 0.8rem; color: #94a3b8; margin: 0 0 20px 0;">포트원 PG사(KG이니시스 / NHN KCP) 입점 심사용 테스트 결제</p>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin: 0 0 16px 0;">케리그마 공식 출판 도서 온라인 결제 및 주문 시스템 (KG이니시스 PG)</p>
+
+            <!-- Book summary card -->
+            <div style="background: #0f172a; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; display: flex; gap: 14px; align-items: center;">
+                <img src="/kerygma_booklist/images/book_10.jpg" alt="성경의 인지구조로 성경 해석" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);" onerror="this.style.display='none'">
+                <div>
+                    <div style="font-size: 0.72rem; color: var(--gold-primary); font-weight: 700; letter-spacing: 0.5px;">대표 출판 도서</div>
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin: 2px 0;">성경의 인지구조로 성경 해석</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;">저자: 김재진 | 출판사: 케리그마 | 정가: <strong style="color: #38bdf8; font-weight: 700;">17,000원</strong></div>
+                </div>
+            </div>
 
             <form id="portonePayForm" onsubmit="requestPortOnePayment(event)">
                 <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">결제 솔루션 (포트원 통합 결제)</label>
+                    <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">결제 솔루션 (포트원 KG이니시스 결제)</label>
                     <div style="padding: 10px 14px; background: #0f172a; border: 1px solid rgba(212,175,55,0.3); border-radius: 6px; color: #ffffff; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;">
-                        <span><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary); margin-right: 8px;"></i> 포트원 통합 결제 모듈 (KG이니시스/KCP 심사용)</span>
-                        <span style="font-size: 0.75rem; background: rgba(212,175,55,0.2); color: var(--gold-primary); padding: 2px 8px; border-radius: 4px; font-weight: 600;">테스트 모드</span>
+                        <span><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary); margin-right: 8px;"></i> KG이니시스 전자결제 (포트원 연동)</span>
+                        <span style="font-size: 0.75rem; background: rgba(212,175,55,0.2); color: var(--gold-primary); padding: 2px 8px; border-radius: 4px; font-weight: 600;">실시간 결제</span>
                     </div>
                     <input type="hidden" id="payPg" value="html5_inicis">
                 </div>
@@ -801,7 +811,9 @@
                 <div style="margin-bottom: 14px;">
                     <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--gold-primary); margin-bottom: 6px;">주문 상품</label>
                     <select id="payProductName" onchange="updatePayAmount(this.value)" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; outline: none;">
-                        <option value="케리그마 신학 도서 / 멤버십 (심사용 테스트)" data-amount="1000">케리그마 신학 도서 (심사 테스트) - 1,000원</option>
+                        <option value="성경의 인지구조로 성경 해석" data-amount="17000" selected>성경의 인지구조로 성경 해석 - 17,000원</option>
+                        <option value="성경 읽기와 설교" data-amount="18000">성경 읽기와 설교 - 18,000원</option>
+                        <option value="교회사개요(동방교회)" data-amount="20000">교회사개요(동방교회) - 20,000원</option>
                     </select>
                 </div>
 
@@ -816,12 +828,12 @@
                     </div>
                     <div>
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">결제 금액 (원)</label>
-                        <input type="number" id="payAmount" value="1000" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; box-sizing: border-box; outline: none;">
+                        <input type="number" id="payAmount" value="17000" style="width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #ffffff; font-size: 0.9rem; box-sizing: border-box; outline: none;">
                     </div>
                 </div>
 
                 <div style="background: rgba(255,255,255,0.03); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 18px;">
-                    <div style="font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 10px;"><i class="fa-solid fa-user"></i> 주문자 정보 (테스트용 기본값)</div>
+                    <div style="font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 10px;"><i class="fa-solid fa-user"></i> 주문자 및 배송지 정보</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <input type="text" id="buyerName" value="홍길동" placeholder="이름" style="padding: 8px 10px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: #fff; font-size: 0.85rem;">
                         <input type="tel" id="buyerTel" value="010-1234-5678" placeholder="연락처" style="padding: 8px 10px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: #fff; font-size: 0.85rem;">
@@ -832,13 +844,13 @@
                 </div>
 
                 <div style="font-size: 0.75rem; color: #94a3b8; background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2); padding: 10px; border-radius: 6px; margin-bottom: 20px;">
-                    <i class="fa-solid fa-circle-info" style="color: var(--gold-primary);"></i> <strong>테스트 모드 안내</strong>: 심사용 테스트 결제창이 호출되며, 실제 결제가 발생하더라도 당일 자정 이전에 자동 전액 취소 처리됩니다.
+                    <i class="fa-solid fa-circle-info" style="color: var(--gold-primary);"></i> <strong>안내</strong>: 케리그마출판사의 공식 PG 결제창(KG이니시스)이 연결되어 안전하게 결제가 진행됩니다.
                 </div>
 
                 <div style="display: flex; gap: 10px; justify-content: flex-end;">
                     <button type="button" onclick="closePaymentModal()" style="background: transparent; color: #94a3b8; border: 1px solid rgba(255,255,255,0.15); padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">취소</button>
                     <button type="submit" id="btnSubmitPayment" style="background: var(--gold-primary); color: #000; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: var(--font-kr);">
-                        <i class="fa-solid fa-shield-halved"></i> 결제창 호출하기
+                        <i class="fa-solid fa-credit-card"></i> 결제하기
                     </button>
                 </div>
             </form>
@@ -886,14 +898,14 @@
 
             const payMethodRaw = document.getElementById('payMethod').value;
             const orderName = document.getElementById('payProductName').value;
-            const amount = parseInt(document.getElementById('payAmount').value, 10) || 1000;
+            const amount = parseInt(document.getElementById('payAmount').value, 10) || 17000;
             const buyerName = document.getElementById('buyerName').value.trim() || '홍길동';
             const buyerEmail = document.getElementById('buyerEmail').value.trim() || 'kp@kerygma.co.kr';
             const buyerTel = document.getElementById('buyerTel').value.trim() || '010-1234-5678';
             const buyerAddr = document.getElementById('buyerAddr').value.trim() || '경기도 용인시 기흥구 연원로 49';
             const buyerPostcode = document.getElementById('buyerPostcode').value.trim() || '16885';
 
-            const paymentId = 'kerygma_test_' + new Date().getTime();
+            const paymentId = 'kerygma_order_' + new Date().getTime();
 
             // Method mapping for PortOne V2 SDK
             const methodMap = {
@@ -929,11 +941,12 @@
                     if (response && response.code != null) {
                         alert("⚠️ [결제 취소/실패]\n\n• 코드: " + response.code + "\n• 사유: " + (response.message || "사용자 결제 취소"));
                     } else if (response) {
-                        alert("🎉 [포트원 테스트 결제 완료]\n\n" +
+                        alert("🎉 [도서 주문/결제 완료]\n\n" +
+                              "• 주문도서: " + orderName + "\n" +
                               "• 결제ID: " + (response.paymentId || paymentId) + "\n" +
                               "• 결제금액: " + amount.toLocaleString() + "원\n" +
-                              "• 결제방식: 포트원 통합결제 (KG이니시스/KCP 심사)\n\n" +
-                              "테스트 모드이므로 실제 과금되지 않거나 자정 전 자동 취소 처리됩니다.");
+                              "• 결제방식: KG이니시스 전자결제\n\n" +
+                              "도서 주문 및 결제가 성공적으로 처리되었습니다.");
                         closePaymentModal();
                     }
                     return;

@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- PortOne SDK (KG이니시스 결제용) -->
+    <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
     <style>
         /* Page-specific: Noise Texture */
         body::before {
@@ -134,8 +137,8 @@
                     <input type="text" required id="orderName" placeholder="홍길동" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-sky-500">
                 </div>
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">연락처 (카드 결제 SMS 수신용) *</label>
-                    <input type="tel" required id="orderPhone" placeholder="010-0000-0000" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-sky-500">
+                    <label class="block text-xs text-slate-400 mb-1">연락처 (결제 및 배송 안내 SMS 수신) *</label>
+                    <input type="tel" required id="orderPhone" placeholder="010-1234-5678" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-sky-500">
                 </div>
                 <div>
                     <label class="block text-xs text-slate-400 mb-1">배송지 주소 *</label>
@@ -144,23 +147,25 @@
                 <div>
                     <label class="block text-xs text-slate-400 mb-1">결제 수단 선택 *</label>
                     <select id="orderPayMethod" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-sky-500">
-                        <option value="card">신용/체크카드 결제 (결제 링크 SMS 수신)</option>
-                        <option value="bank">무통장 계좌 입금 안내</option>
+                        <option value="inicis_card">신용/체크카드 (KG이니시스 전자결제)</option>
+                        <option value="inicis_trans">실시간 계좌이체 (KG이니시스)</option>
+                        <option value="inicis_vbank">가상계좌 (KG이니시스)</option>
+                        <option value="bank">무통장 계좌 직접 입금</option>
                     </select>
                 </div>
                 
                 <div class="pt-2">
-                    <button type="submit" class="w-full py-3 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-lg transition-all shadow-lg shadow-sky-500/20 cursor-pointer">
-                        주문 및 결제 신청하기
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-lg transition-all shadow-lg shadow-amber-500/20 cursor-pointer flex items-center justify-center gap-2">
+                        <span>도서 결제 및 주문하기</span>
                     </button>
                 </div>
-                <p class="text-[11px] text-slate-500 text-center">접수 즉시 전자결제 URL 또는 계좌 안내가 문자로 발송됩니다.</p>
+                <p class="text-[11px] text-slate-500 text-center">KG이니시스 안전 결제 시스템을 통해 결제가 진행됩니다.</p>
             </form>
             
             <div id="orderSuccessMsg" class="hidden text-center py-8">
                 <div class="text-green-400 text-4xl mb-3">✓</div>
-                <h4 class="text-lg font-bold text-white mb-2">주문 신청이 성공적으로 접수되었습니다!</h4>
-                <p class="text-slate-300 text-sm mb-6">입력하신 연락처로 카드 결제 안내 문자를 즉시 발송해 드립니다.</p>
+                <h4 class="text-lg font-bold text-white mb-2">주문/결제가 성공적으로 접수되었습니다!</h4>
+                <p id="orderSuccessDetail" class="text-slate-300 text-sm mb-6">입력하신 연락처로 배송 안내 문자를 발송해 드립니다.</p>
                 <button onclick="closeOrderModal()" class="px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold cursor-pointer">닫기</button>
             </div>
         </div>
@@ -169,8 +174,15 @@
     <script type="module">
         import libraryData from './library_data.js?v=20260820';
 
+        const PORTONE_STORE_ID = "store-0dc3275e-5581-4ce0-bca1-0eca673d768c";
+        const CHANNEL_KEYS = {
+            "html5_inicis": "channel-key-8118f6e6-706b-4669-a522-45b94bc06767"
+        };
+
+        let currentBook = null;
+
         window.openOrderModal = (title) => {
-            document.getElementById('orderBookTitle').innerText = title || '도서 주문 신청';
+            document.getElementById('orderBookTitle').innerText = title || (currentBook ? currentBook.title : '도서 주문 신청');
             document.getElementById('orderForm').classList.remove('hidden');
             document.getElementById('orderSuccessMsg').classList.add('hidden');
             document.getElementById('orderModal').classList.remove('hidden');
@@ -185,17 +197,79 @@
         window.handleOrderSubmit = async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn ? submitBtn.innerText : "주문 및 결제 신청하기";
+            const originalText = submitBtn ? submitBtn.innerHTML : "도서 결제 및 주문하기";
+
+            const name = document.getElementById('orderName').value.trim();
+            const phone = document.getElementById('orderPhone').value.trim();
+            const address = document.getElementById('orderAddress').value.trim();
+            const payMethod = document.getElementById('orderPayMethod').value;
+            const bookTitle = document.getElementById('orderBookTitle').innerText;
+
+            let priceNum = 17000;
+            if (currentBook && currentBook.price) {
+                const parsed = parseInt(currentBook.price.replace(/[^0-9]/g, ''), 10);
+                if (parsed > 0) priceNum = parsed;
+            }
+
+            if (payMethod.startsWith('inicis_')) {
+                const methodMap = {
+                    "inicis_card": "CARD",
+                    "inicis_trans": "TRANSFER",
+                    "inicis_vbank": "VIRTUAL_ACCOUNT"
+                };
+                const v2Method = methodMap[payMethod] || "CARD";
+                const paymentId = 'kerygma_order_' + new Date().getTime();
+
+                if (typeof PortOne !== "undefined") {
+                    if (submitBtn) {
+                        submitBtn.innerText = "결제창 호출 중...";
+                        submitBtn.disabled = true;
+                    }
+                    try {
+                        const response = await PortOne.requestPayment({
+                            storeId: PORTONE_STORE_ID,
+                            channelKey: CHANNEL_KEYS["html5_inicis"],
+                            paymentId: paymentId,
+                            orderName: bookTitle,
+                            totalAmount: priceNum,
+                            currency: "CURRENCY_KRW",
+                            payMethod: v2Method,
+                            customer: {
+                                fullName: name,
+                                phoneNumber: phone,
+                                email: "kp@kerygma.co.kr",
+                                address: {
+                                    addressLine1: address,
+                                    addressLine2: ""
+                                }
+                            },
+                            redirectUrl: window.location.href
+                        });
+
+                        if (response && response.code != null) {
+                            alert("⚠️ [결제 취소/실패]\n\n• 사유: " + (response.message || "사용자 결제 취소"));
+                            if (submitBtn) {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                            }
+                            return;
+                        }
+                    } catch (err) {
+                        console.error("PortOne Error:", err);
+                        alert("⚠️ [결제 오류]: " + (err.message || JSON.stringify(err)));
+                        if (submitBtn) {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }
+                        return;
+                    }
+                }
+            }
+
             if (submitBtn) {
                 submitBtn.innerText = "주문 접수 중...";
                 submitBtn.disabled = true;
             }
-
-            const name = document.getElementById('orderName').value;
-            const phone = document.getElementById('orderPhone').value;
-            const address = document.getElementById('orderAddress').value;
-            const payMethod = document.getElementById('orderPayMethod').value;
-            const bookTitle = document.getElementById('orderBookTitle').innerText;
 
             try {
                 await fetch("https://formsubmit.co/ajax/c569f1de951158eea6d96c242347861d", {
@@ -205,29 +279,32 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        _subject: `[케리그마 도서주문] ${bookTitle} - ${name}님`,
+                        _subject: `[케리그마 도서결제/주문] ${bookTitle} - ${name}님`,
                         "도서명": bookTitle,
+                        "결제금액": priceNum + "원",
                         "주문자성함": name,
                         "연락처": phone,
                         "배송지주소": address,
-                        "결제방식": payMethod === 'card' ? '신용/체크카드 결제 링크 요청' : '무통장 입금'
+                        "결제수단": payMethod
                     })
                 });
             } catch (err) {
-                console.error("Order submission notification error:", err);
+                console.error("Order notification error:", err);
             }
 
             if (submitBtn) {
-                submitBtn.innerText = originalText;
+                submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
             document.getElementById('orderForm').classList.add('hidden');
+            document.getElementById('orderSuccessDetail').innerText = `${bookTitle} (${priceNum.toLocaleString()}원) 결제/주문이 완료되었습니다.`;
             document.getElementById('orderSuccessMsg').classList.remove('hidden');
         };
 
         const urlParams = new URLSearchParams(window.location.search);
         const bookId = urlParams.get('id');
         const book = libraryData.find(b => b.id === bookId);
+        currentBook = book;
 
         if (!book) {
             document.getElementById('errorState').classList.remove('hidden');
@@ -280,8 +357,8 @@
             const directBtn = document.createElement('button');
             directBtn.type = "button";
             directBtn.onclick = () => window.openOrderModal(book.title);
-            directBtn.className = "block w-full text-center py-3.5 rounded-md text-sm font-bold bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/20 mb-2 border border-sky-400/30 cursor-pointer";
-            directBtn.innerHTML = `<span>출판사 직영 주문 (카드/계좌)</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path></svg>`;
+            directBtn.className = "block w-full text-center py-3.5 rounded-md text-sm font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 mb-2 border border-amber-400/40 cursor-pointer";
+            directBtn.innerHTML = `<span>출판사 직영 온라인 주문 / 결제</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path></svg>`;
             linkContainer.appendChild(directBtn);
 
             if (book.links && Array.isArray(book.links) && book.links.length > 0) {
